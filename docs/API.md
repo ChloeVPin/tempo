@@ -9,6 +9,7 @@ A calendar date with no time zone. Month is `1..12`.
 ```ts
 LocalDate.of(2026, 6, 1)
 LocalDate.parse('2026-06-01')
+LocalDate.parse('01/06/2026', 'dd/MM/yyyy')
 LocalDate.tryParse('2026-02-30') // { ok: false, reason: 'INVALID_MONTH_DAY', ... }
 LocalDate.today()
 LocalDate.today('America/New_York')
@@ -122,7 +123,9 @@ const dates = DateRange.of(LocalDate.of(2026, 6, 1), LocalDate.of(2026, 6, 8));
 
 `reject` throws `INVALID_MONTH_DAY`.
 
-`LocalDate.of` / `parse` default to `reject`.
+`LocalDate.of` / ISO `parse` default to `reject`. Custom-token parsing is also strict and uses the same rejection rules.
+
+Custom LocalDate parsing supports numeric `y`/`yyyy`/`uuuu`, `M`/`MM`, `d`/`dd`, and quoted literals. `yy`, localized month names, weekdays, time, offset, and zone tokens are rejected rather than guessed.
 
 ## Formatting
 

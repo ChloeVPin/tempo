@@ -12,6 +12,7 @@
 - Mutation testing on `src/core/civil.ts` via Stryker (`npm run test:mutation`): **89.5% score**, zero survivors in the civil math core; `dayOfYear`/`quarter`/ISO-week error contracts now asserted. Dev deps: `@stryker-mutator/core`, `@stryker-mutator/vitest-runner`, `@stryker-mutator/typescript-checker` (all pinned 10.0.0).
 - Moment compat differential suite: 6 deterministic cases against pinned `moment@2.30.1` and `moment-timezone@0.5.48`; intentionally excludes Moment-only permissive parsing and ambiguous DST behavior.
 - Phase 2 `Interval<T>`: immutable half-open `[start, end)` intervals with containment, overlap, abutment, intersection, union, ordering validation, and a `DateRange.of(...)` LocalDate factory.
+- Strict numeric custom-token parsing for `LocalDate.parse(input, pattern)`: `y`/`yyyy`/`uuuu`, `M`/`MM`, `d`/`dd`, and quoted literals; unsupported ambiguous or locale-sensitive tokens reject explicitly.
 
 ## 0.1.0 — 2026-08-14
 

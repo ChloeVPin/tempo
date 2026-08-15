@@ -123,7 +123,7 @@ Semantics follow Temporal.
 Four layers, only the first is in the default import path:
 
 1. Strict ISO 8601 / RFC 3339
-2. Explicit token parser (opt-in)
+2. Explicit numeric token parser for LocalDate (opt-in; locale-sensitive parsing remains deferred)
 3. Locale parser (later)
 4. Legacy permissive parser (compat only)
 

@@ -30,6 +30,7 @@ src/
   format/
     tokens.ts              tokenize patterns
     format.ts              compiled-token cache + render
+    parse.ts               strict numeric LocalDate token parser
     index.ts
   tz/
     types.ts               TimeZoneProvider

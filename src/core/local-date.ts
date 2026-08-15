@@ -23,6 +23,7 @@ import {
   requireValidDate,
 } from './civil.js';
 import { Duration } from './duration.js';
+import { parseDateFields } from '../format/parse.js';
 import { resolveDate } from './overflow.js';
 
 export class LocalDate {
@@ -59,12 +60,24 @@ export class LocalDate {
     return new LocalDate(d.year, d.month, d.day);
   }
 
-  static parse(input: string): LocalDate {
-    return unwrapParse(LocalDate.tryParse(input));
+  static parse(input: string, pattern?: string): LocalDate {
+    return unwrapParse(LocalDate.tryParse(input, pattern));
   }
 
-  static tryParse(input: string): ParseResult<LocalDate> {
-    return parseLocalDate(input);
+  static tryParse(input: string, pattern?: string): ParseResult<LocalDate> {
+    if (pattern === undefined) return parseLocalDate(input);
+    const parsed = parseDateFields(input, pattern);
+    if (!parsed.ok) return parsed;
+    try {
+      return {
+        ok: true,
+        value: LocalDate.of(parsed.value.year, parsed.value.month, parsed.value.day, 'reject'),
+      };
+    } catch (err) {
+      const message = err instanceof TempoError ? err.message : 'Invalid date';
+      const reason = err instanceof TempoError ? err.code : 'INVALID_DATE';
+      return { ok: false, reason, message, input };
+    }
   }
 
   static today(timeZone?: string): LocalDate {

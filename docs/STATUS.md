@@ -34,6 +34,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `src/iso/scan.ts` | missing | — | Aspirational |
 | `src/format/tokens.ts` | done | `format.test.ts` | |
 | `src/format/format.ts` | done | `format.test.ts` | In-module token cache |
+| `src/format/parse.ts` | done | `custom-parse.test.ts` | Strict numeric LocalDate token parser |
 | `src/format/compiler.ts` | n/a | — | Not a separate file |
 | `src/intl/*` | done | `intl.test.ts` | |
 | `src/relative/relative-time.ts` | partial | `relative.test.ts` | One case |
@@ -57,6 +58,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `tests/differential/date-fns.test.ts` | done | 7 non-ambiguous cases vs `date-fns@4.4.0` |
 | `tests/differential/moment.test.ts` | done | 6 deterministic compat cases vs `moment@2.30.1` + `moment-timezone@0.5.48` |
 | `tests/unit/interval.test.ts` | done | Half-open containment, invalid order, overlap/abut/intersection/union, LocalDate range |
+| `tests/unit/custom-parse.test.ts` | done | Strict numeric custom-token parsing and rejection paths |
 | `tests/unit/compare.test.ts` | done | `isBetween` inclusivity matrix |
 | `tests/unit/temporal-interop.test.ts` | done | Fake Temporal round-trips + error paths |
 | `tests/runtime/bun-smoke.ts` | done | Bun runs TS source; verified locally (bun 1.3.14) |

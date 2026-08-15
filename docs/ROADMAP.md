@@ -63,7 +63,7 @@ Goal: production-ready kernel with a locked contract.
 - [ ] API freeze and changelog
 - [x] Generic immutable `Interval` with half-open `[start, end)` semantics; `DateRange.of(...)` convenience factory
 - [ ] Explicit `Period` (calendar) vs `Duration` (time) split if needed after usage
-- [ ] Custom token parser (`LocalDate.parse(input, 'dd/MM/yyyy')`)
+- [x] Strict numeric custom token parser (`LocalDate.parse(input, 'dd/MM/yyyy')`); locale/month-name parsing remains deferred
 - [ ] Optional embedded tzdata fallback package for incomplete Intl hosts
 - [ ] Clock injection documented as public API
 - [ ] Migration cookbook covering the 20 most common Moment calls
