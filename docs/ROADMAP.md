@@ -49,7 +49,7 @@ Goal: correctness under adversarial inputs and timezone chaos.
 - [x] Exhaustive civil-day walk for 1900–2100
 - [x] Parser fuzzing with bounded-time assertions
 - [x] Differential tests vs Temporal polyfill (where available)
-- [ ] Differential tests vs Luxon / date-fns for non-ambiguous cases
+- [x] Differential tests vs Luxon / date-fns for non-ambiguous cases
 - [ ] Optional pinned Moment tests for the compat adapter only
 - [ ] Mutation testing on `src/core/civil.ts`
 - [x] Browser smoke tests (Playwright)

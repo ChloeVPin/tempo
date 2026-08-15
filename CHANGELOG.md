@@ -8,6 +8,7 @@
 - **WP3** coverage: dead paths covered, `temporal/interop` tested via fake `Temporal`, thresholds raised to 74/62/72, `compare.ts` + `src/temporal/**` un-excluded.
 - **WP4** runtime matrix: bun / deno / Playwright smoke jobs (`fail-fast: false`).
 - **WP5** module graph: `format` / `toLocaleString` / `relativeTime` removed from the main barrel (use `tempo-js/format`, `tempo-js/intl`, `tempo-js/relative`); main barrel 10.4 → 8.9 kB min+gzip; size-limit now gates gzip at 10 kB / 6 kB.
+- Differential suites vs `luxon@3.7.2` (8 cases) and `date-fns@4.4.0` (7 cases) for non-ambiguous calendar, instant, weekday, and zoned cases.
 
 ## 0.1.0 — 2026-08-14
 

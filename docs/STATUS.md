@@ -52,6 +52,8 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `tests/fuzz/parse.fuzz.test.ts` | done | 4 suites; TempoError-only, <50 ms/input |
 | `tests/bench/core.bench.ts` | done | Not in CI |
 | `tests/differential/temporal.test.ts` | done | Skip-safe; passes 6/6 vs pinned polyfill in CI |
+| `tests/differential/luxon.test.ts` | done | 8 non-ambiguous cases vs `luxon@3.7.2` |
+| `tests/differential/date-fns.test.ts` | done | 7 non-ambiguous cases vs `date-fns@4.4.0` |
 | `tests/unit/compare.test.ts` | done | `isBetween` inclusivity matrix |
 | `tests/unit/temporal-interop.test.ts` | done | Fake Temporal round-trips + error paths |
 | `tests/runtime/bun-smoke.ts` | done | Bun runs TS source; verified locally (bun 1.3.14) |
