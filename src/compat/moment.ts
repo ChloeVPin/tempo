@@ -21,16 +21,16 @@ export class MomentCompat {
     if (input instanceof ZonedDateTime) {
       return new MomentCompat(zone ? input.withTimeZone(zone) : input);
     }
-    if (input instanceof Instant) return new MomentCompat(input.toZonedDateTime(timeZone) as ZonedDateTime);
+    if (input instanceof Instant) return new MomentCompat(input.toZonedDateTime(timeZone));
     if (input instanceof LocalDate) {
       return new MomentCompat(ZonedDateTime.fromLocal(LocalDateTime.combine(input), timeZone));
     }
     if (input instanceof Date) {
-      return new MomentCompat(Instant.fromJSDate(input).toZonedDateTime(timeZone) as ZonedDateTime);
+      return new MomentCompat(Instant.fromJSDate(input).toZonedDateTime(timeZone));
     }
     if (typeof input === 'number') {
       const ms = Math.abs(input) < 1e11 ? input * 1000 : input;
-      return new MomentCompat(Instant.ofEpochMillis(ms).toZonedDateTime(timeZone) as ZonedDateTime);
+      return new MomentCompat(Instant.ofEpochMillis(ms).toZonedDateTime(timeZone));
     }
     if (typeof input === 'string') {
       try {

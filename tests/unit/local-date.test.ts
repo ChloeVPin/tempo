@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { LocalDate } from '../../src/core/local-date.js';
 import { TempoError } from '../../src/errors.js';
+import { useFixedClock } from '../../src/clock.js';
 
 describe('LocalDate', () => {
   it('parses and formats ISO dates', () => {
@@ -67,5 +68,29 @@ describe('LocalDate', () => {
     const next = d.plus({ days: 1 });
     expect(d.toISO()).toBe('2026-01-01');
     expect(next.toISO()).toBe('2026-01-02');
+  });
+
+  it('today follows the fixed clock', () => {
+    const instant = Date.UTC(2026, 5, 1, 15, 0, 0);
+    const restore = useFixedClock(instant);
+    try {
+      expect(LocalDate.today('UTC').toISO()).toBe('2026-06-01');
+      // The no-zone branch uses the host time zone; mirror its derivation.
+      const host = new Date(instant);
+      const expected = `${host.getFullYear()}-${String(host.getMonth() + 1).padStart(2, '0')}-${String(
+        host.getDate(),
+      ).padStart(2, '0')}`;
+      expect(LocalDate.today().toISO()).toBe(expected);
+    } finally {
+      restore();
+    }
+  });
+
+  it('picks min and max', () => {
+    const a = LocalDate.of(2026, 1, 1);
+    const b = LocalDate.of(2026, 6, 1);
+    const c = LocalDate.of(2026, 12, 31);
+    expect(LocalDate.min(a, b, c).equals(a)).toBe(true);
+    expect(LocalDate.max(a, b, c).equals(c)).toBe(true);
   });
 });

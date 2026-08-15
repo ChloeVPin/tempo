@@ -30,4 +30,15 @@ describe('Duration', () => {
     expect(Duration.tryParse('2 hours').ok).toBe(false);
     expect(Duration.tryParse('P').ok).toBe(false);
   });
+
+  it('supports sign, negation and absolute value', () => {
+    const d = Duration.of({ hours: 2, minutes: 30 });
+    expect(d.sign).toBe(1);
+    expect(d.negated().toISO()).toBe('-PT2H30M');
+    expect(d.negated().negated().equals(d)).toBe(true);
+    expect(Duration.parse('-PT90M').abs().toISO()).toBe('PT90M');
+    expect(Duration.of({ seconds: -1 }).sign).toBe(-1);
+    expect(Duration.zero().sign).toBe(0);
+    expect(Duration.zero().negated().isZero()).toBe(true);
+  });
 });

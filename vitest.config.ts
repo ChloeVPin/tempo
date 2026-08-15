@@ -9,18 +9,11 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/**/*.ts'],
-      exclude: [
-        'src/**/index.ts',
-        'src/temporal/**',
-        'src/iso/format.ts',
-        'src/types.ts',
-        'src/tz/types.ts',
-        'src/core/compare.ts',
-      ],
+      exclude: ['src/**/index.ts', 'src/iso/format.ts', 'src/types.ts', 'src/tz/types.ts'],
       thresholds: {
-        lines: 68,
-        functions: 58,
-        branches: 65,
+        lines: 74,
+        functions: 62,
+        branches: 72,
       },
     },
   },

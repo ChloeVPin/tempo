@@ -162,7 +162,7 @@ Treat these as **documented incomplete work**, not surprises.
 6. **`ZonedDateTime.isDST()` is a heuristic** (compare offset to the min offset ±180 days). Not IANA-authoritative.
 7. **`ZonedDateTime.startOf('day')` when midnight is in a gap** tries `later`. Thinly tested. High-risk.
 8. **`fromInstant` rebuilds local fields via `new Date(instant + offset)` + `getUTC*`.**** Fine inside the ES Date range; that is the v1 range.
-9. **Coverage thresholds are deliberately low** (lines 68 / functions 58 / branches 65) and several files are excluded (`src/**/index.ts`, `src/temporal/**`, `src/iso/format.ts`, `src/types.ts`, `src/tz/types.ts`, `src/core/compare.ts`). Raising them is Phase 1 work, not a license to delete tests.
+9. **Coverage thresholds** were raised to lines 74 / functions 62 / branches 72 in WP3; `src/temporal/**` and `src/core/compare.ts` are now tested and removed from the excludes. Remaining excludes: `src/**/index.ts`, `src/iso/format.ts`, `src/types.ts`, `src/tz/types.ts`.
 10. **Temporal interop is untested** in CI (no native Temporal assumed).
 11. **Moment adapter is a subset.** No `isValid() === false` objects, no global locale, no `moment.fn`, no `'01/02/26'` parse. `isValid()` always returns `true` because construction throws instead.
 12. **Parser fuzz exists** (`tests/fuzz/parse.fuzz.test.ts`) but is light (200 strings, 50 ms bound).

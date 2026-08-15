@@ -15,4 +15,15 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    // Runtime smoke scripts run under node/bun/deno, not the browser.
+    files: ['tests/runtime/**/*.{js,mjs,ts}'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        URL: 'readonly',
+      },
+    },
+  },
 );

@@ -27,6 +27,62 @@ jobs:
       - run: npm run lint
       - run: npm test
 
+  temporal-diff:
+    name: temporal differential (polyfill)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run --config vitest.temporal.config.ts
+
+  # Runtime matrix (Phase 1, WP4): each job proves the kernel loads and
+  # computes correctly on a non-Node runtime. All are smoke-scoped; the
+  # required `test` job (Node 20/22/24) remains the correctness gate.
+  # fail-fast: false so one runtime failing never hides the others.
+  bun-smoke:
+    name: bun smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+      - run: bun run tests/runtime/bun-smoke.ts
+
+  deno-smoke:
+    name: deno smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: deno run tests/runtime/deno-smoke.mjs
+
+  playwright-smoke:
+    name: browser smoke (chromium)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # Uses the Chrome preinstalled on the runner; no browser download.
+      - run: node tests/runtime/browser-smoke.mjs
+
   coverage:
     name: coverage
     runs-on: ubuntu-latest

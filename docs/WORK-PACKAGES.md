@@ -8,6 +8,8 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 
 ## WP1 — Timezone and civil hardening (Phase 1, first)
 
+**Status: done** (2026-08-15). See `tests/golden/timezone.golden.test.ts` (26 transition rows + 8 baseline; ICU-history-guarded `Pacific/Apia` and 2018 `America/Sao_Paulo`), `tests/unit/civil-walk.test.ts` (73,414-day walk), `tests/unit/zoned.test.ts` (London gap/overlap + São Paulo midnight-gap `startOf('day')`).
+
 **Goal:** stop being “looks right on 8 goldens” and become hard to lie about.
 
 **Do**
@@ -36,6 +38,8 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 
 ## WP2 — Parser and Temporal differential (Phase 1)
 
+**Status: done** (2026-08-15). Fuzz grew to 4 suites (ascii ≤512, unicode/control via `unit: 'binary'`, ISO-fragment splicing, fixed adversarial list) — TempoError-only throws, <50 ms/input. `tests/differential/temporal.test.ts` is skip-safe and passes 6/6 against pinned `@js-temporal/polyfill@0.5.1` via the `temporal-diff` CI job (`vitest.temporal.config.ts`).
+
 **Goal:** parsers stay bounded; semantics match Temporal where Temporal exists.
 
 **Do**
@@ -58,6 +62,8 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 
 ## WP3 — Coverage and dead code (Phase 1)
 
+**Status: done** (2026-08-15). Unused paths now tested (`today`, `min`/`max`, `LocalTime.now`, `Duration.negated`/`abs`, `with`/`isDST`/`endOf`, `setTimeZoneProvider`, `parseOffset`, `compare.ts` `isBetween` — kept, it is exported from the barrel). `temporal/interop.ts` tested against a fake `globalThis.Temporal`. Thresholds raised 68/58/65 → 74/62/72; `compare.ts` and `src/temporal/**` removed from coverage excludes. `as ZonedDateTime` casts removed from `compat/moment.ts`.
+
 **Goal:** coverage means something.
 
 **Do**
@@ -75,6 +81,8 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 ---
 
 ## WP4 — Runtime matrix (Phase 1)
+
+**Status: done** (2026-08-15). `tests/runtime/bun-smoke.ts` (Bun runs TS source; verified on bun 1.3.14), `tests/runtime/deno-smoke.mjs` (Deno imports built ESM), `tests/runtime/browser-smoke.mjs` (Playwright + system Chrome; verified locally). CI jobs `bun-smoke`, `deno-smoke`, `playwright-smoke`, all `fail-fast: false`, each documenting what it proves.
 
 **Goal:** prove the kernel on more than Node.
 

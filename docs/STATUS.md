@@ -15,14 +15,14 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `src/core/civil.ts` | done | `civil.test.ts`, property | **Must use `truncDiv`** |
 | `src/core/range.ts` | done | via civil/instant | ES Date bounds |
 | `src/core/overflow.ts` | partial | via LocalDate | `requireInteger` / `requireFinite` barely used |
-| `src/core/compare.ts` | partial | excluded | `isBetween` on LocalDate is inlined, this helper is unused |
+| `src/core/compare.ts` | done | `compare.test.ts` | `isBetween` + `compareValues`; no longer excluded |
 | `src/core/duration.ts` | done | `duration.test.ts` | ISO parse + `total()` |
 | `src/core/local-date.ts` | done | `local-date.test.ts` | 1-based months |
 | `src/core/local-time.ts` | done | `local-time.test.ts` | Wraps at midnight |
 | `src/core/local-datetime.ts` | done | `local-datetime.test.ts` | `until` calendar units ignore time |
 | `src/core/instant.ts` | done | `instant.test.ts` | Needs zone factory for `toZonedDateTime` |
 | `src/tz/types.ts` | done | excluded | `getPossibleInstants`, not Offsets |
-| `src/tz/offset.ts` | partial | via zoned/format | `parseOffset` lightly used |
+| `src/tz/offset.ts` | done | `zoned.test.ts` | `parseOffset` + `formatOffset` styles + fixed-offset ids |
 | `src/tz/intl-provider.ts` | done | golden + zoned | Cached Intl |
 | `src/tz/disambiguate.ts` | done | `zoned.test.ts` | 3–48h probe windows |
 | `src/tz/zoned-datetime.ts` | done | `zoned.test.ts` | Registers factories at load |
@@ -38,7 +38,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `src/relative/relative-time.ts` | partial | `relative.test.ts` | One case |
 | `src/compat/moment.ts` | partial | `compat-moment.test.ts` | Common subset only |
 | `src/compat/format-map.ts` | done | via compat | Moment → Tempo tokens |
-| `src/temporal/interop.ts` | partial | **none** | Feature-detected; excluded from coverage |
+| `src/temporal/interop.ts` | done | `temporal-interop.test.ts` | Fake-`globalThis.Temporal`; no longer excluded |
 
 ## Tests
 
@@ -46,11 +46,17 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 |---|---|---|
 | `tests/unit/*.test.ts` | done | Contract examples |
 | `tests/property/civil.property.test.ts` | done | Round-trip, inverse days, month bounds |
-| `tests/golden/timezone.golden.test.ts` | partial | 8 zone/instant rows; needs more DST + history |
-| `tests/fuzz/parse.fuzz.test.ts` | partial | 200 strings, 50 ms |
+| `tests/golden/timezone.golden.test.ts` | done | 8 baseline + 26 transition rows; ICU-history-guarded Apia / São Paulo 2018 |
+| `tests/unit/civil-walk.test.ts` | done | 73,414-day walk 1900-01-01..2100-12-31 |
+| `tests/helpers/intl-history.ts` | done | Direct-Intl probe; decides ICU-history skips |
+| `tests/fuzz/parse.fuzz.test.ts` | done | 4 suites; TempoError-only, <50 ms/input |
 | `tests/bench/core.bench.ts` | done | Not in CI |
-| `tests/differential/` | missing | Phase 1 |
-| Playwright / Bun / Deno | missing | Phase 1 |
+| `tests/differential/temporal.test.ts` | done | Skip-safe; passes 6/6 vs pinned polyfill in CI |
+| `tests/unit/compare.test.ts` | done | `isBetween` inclusivity matrix |
+| `tests/unit/temporal-interop.test.ts` | done | Fake Temporal round-trips + error paths |
+| `tests/runtime/bun-smoke.ts` | done | Bun runs TS source; verified locally (bun 1.3.14) |
+| `tests/runtime/deno-smoke.mjs` | done | Deno imports built ESM; CI job |
+| `tests/runtime/browser-smoke.mjs` | done | Playwright + system Chrome; verified locally |
 
 ## Tooling
 
@@ -59,9 +65,10 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `package.json` / lockfile | done |
 | `tsconfig.json` (strict, NodeNext, verbatimModuleSyntax) | done |
 | `tsup.config.ts` (multi-entry ESM+CJS+dts) | done |
-| `vitest.config.ts` | done |
-| `eslint.config.js` | done |
-| `.github/workflows/ci.yml` | done |
+| `vitest.temporal.config.ts` | done | Differential-only config; injects pinned polyfill |
+| `vitest.config.ts` | done | Thresholds 74/62/72 (lines/functions/branches); excludes: index.ts, iso/format.ts, types.ts, tz/types.ts |
+| `eslint.config.js` | done | Runtime-smoke globals for `tests/runtime/**` |
+| `.github/workflows/ci.yml` | done | Node matrix + coverage + build/size + temporal-diff + bun/deno/playwright smokes |
 | size-limit on `dist/index.js` and `dist/format/index.js` | done |
 | npm publish | missing |
 

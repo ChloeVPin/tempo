@@ -45,15 +45,15 @@ Sequenced as WP1–WP5 in [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
 
 Goal: correctness under adversarial inputs and timezone chaos.
 
-- [ ] Golden DST tables for a curated IANA zone set (US, EU, southern hemisphere, non-hour offsets, historical)
-- [ ] Exhaustive civil-day walk for 1900–2100
-- [ ] Parser fuzzing with bounded-time assertions
-- [ ] Differential tests vs Temporal polyfill (where available)
+- [x] Golden DST tables for a curated IANA zone set (US, EU, southern hemisphere, non-hour offsets, historical)
+- [x] Exhaustive civil-day walk for 1900–2100
+- [x] Parser fuzzing with bounded-time assertions
+- [x] Differential tests vs Temporal polyfill (where available)
 - [ ] Differential tests vs Luxon / date-fns for non-ambiguous cases
 - [ ] Optional pinned Moment tests for the compat adapter only
 - [ ] Mutation testing on `src/core/civil.ts`
-- [ ] Browser smoke tests (Playwright)
-- [ ] Bun and Deno smoke jobs
+- [x] Browser smoke tests (Playwright)
+- [x] Bun and Deno smoke jobs
 - [ ] Published size dashboard (core / format / tz / compat)
 
 ## Phase 2 — 1.0 candidate
