@@ -1,6 +1,6 @@
 # Implementation status
 
-Last updated: 2026-08-15. Update a row when you land or delete the file.
+Last updated: 2026-08-15 (Phase 2 Interval slice). Update a row when you land or delete the file.
 
 Legend: **done** = implemented + at least one test · **partial** = exists, thin tests or known gaps · **missing** = not in tree · **n/a** = decided against for v1
 
@@ -17,6 +17,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `src/core/overflow.ts` | partial | via LocalDate | `requireInteger` / `requireFinite` barely used |
 | `src/core/compare.ts` | done | `compare.test.ts` | `isBetween` + `compareValues`; no longer excluded |
 | `src/core/duration.ts` | done | `duration.test.ts` | ISO parse + `total()` |
+| `src/core/interval.ts` | done | `interval.test.ts` | Generic immutable half-open intervals; `DateRange` factory |
 | `src/core/local-date.ts` | done | `local-date.test.ts` | 1-based months |
 | `src/core/local-time.ts` | done | `local-time.test.ts` | Wraps at midnight |
 | `src/core/local-datetime.ts` | done | `local-datetime.test.ts` | `until` calendar units ignore time |
@@ -55,6 +56,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `tests/differential/luxon.test.ts` | done | 8 non-ambiguous cases vs `luxon@3.7.2` |
 | `tests/differential/date-fns.test.ts` | done | 7 non-ambiguous cases vs `date-fns@4.4.0` |
 | `tests/differential/moment.test.ts` | done | 6 deterministic compat cases vs `moment@2.30.1` + `moment-timezone@0.5.48` |
+| `tests/unit/interval.test.ts` | done | Half-open containment, invalid order, overlap/abut/intersection/union, LocalDate range |
 | `tests/unit/compare.test.ts` | done | `isBetween` inclusivity matrix |
 | `tests/unit/temporal-interop.test.ts` | done | Fake Temporal round-trips + error paths |
 | `tests/runtime/bun-smoke.ts` | done | Bun runs TS source; verified locally (bun 1.3.14) |

@@ -157,16 +157,16 @@ Treat these as **documented incomplete work**, not surprises.
 1. **`OffsetDateTime` is not a class.** Fixed offsets are `ZonedDateTime` with id `+HH:mm` / `UTC`. Design left this open.
 2. **`Period` is not separate from `Duration`.** One `Duration` holds years/months/weeks/days/h/m/s/ms.
 3. **No custom format parser.** `LocalDate.parse('01/02/2026', 'dd/MM/yyyy')` does not exist.
-4. **No `Interval` / `DateRange`.**
+4. **`Interval` / `DateRange` are now implemented** as immutable half-open `[start, end)` ranges; see `src/core/interval.ts`.
 5. **`LocalDateTime.until(..., 'day'|'week'|'month'|'year')` uses the date part only** and ignores time-of-day. Time units use naive UTC millis. This is a real semantic gap vs Temporal. Do not “fix” it silently — add tests and document if you change it.
 6. **`ZonedDateTime.isDST()` is a heuristic** (compare offset to the min offset ±180 days). Not IANA-authoritative.
 7. **`ZonedDateTime.startOf('day')` when midnight is in a gap** tries `later`. Thinly tested. High-risk.
 8. **`fromInstant` rebuilds local fields via `new Date(instant + offset)` + `getUTC*`.**** Fine inside the ES Date range; that is the v1 range.
 9. **Coverage thresholds** were raised to lines 74 / functions 62 / branches 72 in WP3; `src/temporal/**` and `src/core/compare.ts` are now tested and removed from the excludes. Remaining excludes: `src/**/index.ts`, `src/iso/format.ts`, `src/types.ts`, `src/tz/types.ts`.
-10. **Temporal interop is untested** in CI (no native Temporal assumed).
+10. **Temporal interop is tested locally** with a fake `globalThis.Temporal`; native Temporal is not assumed in CI.
 11. **Moment adapter is a subset.** No `isValid() === false` objects, no global locale, no `moment.fn`, no `'01/02/26'` parse. `isValid()` always returns `true` because construction throws instead.
 12. **Parser fuzz exists** (`tests/fuzz/parse.fuzz.test.ts`) but is light (200 strings, 50 ms bound).
-13. **No Playwright / Bun / Deno jobs** in CI yet (roadmap Phase 1). A Bun smoke job was drafted and removed from the workflow; do not assume it is there.
+13. **Phase 1 runtime jobs are present** for Playwright, Bun, and Deno; CI remains the authority for host-specific results.
 14. **`scripts/` is empty.** Debug scripts are not part of the product.
 15. **Not published to npm.**
 

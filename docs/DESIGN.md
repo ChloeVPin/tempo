@@ -2,7 +2,7 @@
 
 A TypeScript-first, immutable, Temporal-aligned date/time library intended to replace Moment.js in modern environments.
 
-Status: Phase 0 landed on `main`. Next: Phase 1 (see `docs/WORK-PACKAGES.md`).
+Status: Phase 1 hardening landed on `main`; Phase 2 API candidates are now being implemented (see `docs/WORK-PACKAGES.md`).
 Authors: Tempo maintainers
 Date: 2026-08-14 (reconciled 2026-08-15)
 
@@ -53,6 +53,7 @@ A 2026 replacement should not clone that API. It should replace the job Moment d
 | `LocalDateTime` | A civil date and time with no zone | no | no |
 | `ZonedDateTime` | A civil datetime in a named or fixed zone | yes | yes |
 | `Duration` | A signed mix of calendar and time units | n/a | n/a |
+| `Interval<T>` | Immutable half-open range over comparable values | endpoint-defined | endpoint-defined |
 | `OffsetDateTime` | Civil datetime + fixed offset (no IANA rules) | offset only | yes |
 
 `LocalDate` is never silently treated as UTC midnight or as “system local midnight.” Conversion to an instant always requires a zone (or an explicit offset).
@@ -198,6 +199,7 @@ date.with({ year: 2027 })
 - `UNKNOWN_TIMEZONE`
 - `OUT_OF_RANGE`
 - `INCOMPATIBLE_UNIT`
+- `INVALID_INTERVAL`
 
 Messages are English and stable enough for tests. Codes are the contract.
 

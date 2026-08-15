@@ -93,6 +93,29 @@ duration.total('milliseconds') // rejects years/months
 duration.toISO()
 ```
 
+## Interval
+
+An immutable half-open interval `[start, end)`. Endpoints can be any Tempo value with a `compare()` method, including `Instant`, `LocalDate`, and `ZonedDateTime`. Equal endpoints are allowed and form an empty interval.
+
+```ts
+import { DateRange, Instant, Interval, LocalDate } from 'tempo-js';
+
+const start = Instant.parse('2026-06-01T00:00:00Z');
+const end = start.plus({ days: 7 });
+const interval = Interval.of(start, end);
+
+interval.contains(start);                 // true
+interval.contains(end);                   // false
+interval.overlaps(other);
+interval.abuts(other);
+interval.intersection(other);              // Interval | null
+interval.union(other);                    // Interval | null
+
+const dates = DateRange.of(LocalDate.of(2026, 6, 1), LocalDate.of(2026, 6, 8));
+```
+
+`Interval.of` throws `INVALID_INTERVAL` when `end` precedes `start` or endpoints cannot be ordered.
+
 ## Overflow
 
 `constrain` (default for `plus` / `with`) clamps the day into the target month.
@@ -135,7 +158,7 @@ Immutable. Strict parse. Common methods only. See `docs/MIGRATION.md`.
 
 `TempoError` with `code`:
 
-`INVALID_DATE` `INVALID_MONTH_DAY` `INVALID_TIME` `INVALID_DURATION` `INVALID_PARSE` `INVALID_FORMAT` `INVALID_OFFSET` `TIMEZONE_GAP` `TIMEZONE_OVERLAP` `UNKNOWN_TIMEZONE` `OUT_OF_RANGE` `INCOMPATIBLE_UNIT`
+`INVALID_DATE` `INVALID_MONTH_DAY` `INVALID_TIME` `INVALID_DURATION` `INVALID_PARSE` `INVALID_FORMAT` `INVALID_OFFSET` `TIMEZONE_GAP` `TIMEZONE_OVERLAP` `UNKNOWN_TIMEZONE` `OUT_OF_RANGE` `INCOMPATIBLE_UNIT` `INVALID_INTERVAL`
 
 ## Clock (tests)
 

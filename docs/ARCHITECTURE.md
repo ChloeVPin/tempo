@@ -10,7 +10,7 @@ Last reconciled with `src/`: 2026-08-15.
 
 ```text
 src/
-  index.ts                 public barrel (core + format + intl + relative)
+  index.ts                 public barrel (core + tz; format/intl/relative are subpaths)
   errors.ts                TempoError + ParseResult
   types.ts                 units, overflow, disambiguation
   clock.ts                 injectable now()
@@ -24,6 +24,7 @@ src/
     local-time.ts
     local-datetime.ts      + local→zoned factory hook
     duration.ts
+    interval.ts             generic half-open Interval + LocalDate DateRange factory
   iso/
     format.ts              thin toISO() helper (parse lives on each type)
   format/

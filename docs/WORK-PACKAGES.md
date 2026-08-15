@@ -121,11 +121,13 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 
 ## WP6 — 1.0 API freeze candidates (Phase 2)
 
+**In progress:** the generic `Interval<T>` slice is done locally; next candidate is the custom token parser.
+
 Only after WP1–WP2.
 
 Pick with the user if still open:
 
-1. `Interval` (`start`, `end`) with half-open default `[start, end)`.
+1. [x] Generic `Interval<T>` (`start`, `end`) with half-open `[start, end)` default; `DateRange.of(...)` for `LocalDate`.
 2. Custom token **parser** (`parse(input, 'dd/MM/yyyy')`) — tokens must match `src/format/tokens.ts`.
 3. Keep `Duration` as mixed fields **or** split `Period` (years/months/weeks/days) vs time `Duration`. Default recommendation: **split only if** Temporal interop becomes painful; otherwise keep one type through 1.0.
 4. Keep offset zones as `ZonedDateTime` (current) unless users need a distinct `OffsetDateTime`.

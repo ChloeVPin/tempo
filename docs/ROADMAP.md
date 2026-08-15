@@ -2,7 +2,7 @@
 
 This document is the living plan for Tempo. It records what ships in each phase, what is deferred, and why. Update it whenever a milestone lands or a decision changes.
 
-Last updated: 2026-08-15
+Last updated: 2026-08-15 (Phase 2 Interval slice)
 
 Agents: do not plan from this file alone. Use [`HANDOFF.md`](HANDOFF.md) + [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
 
@@ -39,7 +39,7 @@ Goal: a real repository, documented design, and a testable kernel.
 - [x] Unit, property, and golden tests
 - [x] Bundle size budgets in CI
 
-## Phase 1 — Hardening toward 0.2 (current)
+## Phase 1 — Hardening toward 0.2 (complete)
 
 Sequenced as WP1–WP5 in [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
 
@@ -56,12 +56,12 @@ Goal: correctness under adversarial inputs and timezone chaos.
 - [x] Bun and Deno smoke jobs
 - [x] Published size dashboard (core / format / tz / compat) — see size table below
 
-## Phase 2 — 1.0 candidate
+## Phase 2 — 1.0 candidate (current)
 
 Goal: production-ready kernel with a locked contract.
 
 - [ ] API freeze and changelog
-- [ ] `Interval` / `DateRange`
+- [x] Generic immutable `Interval` with half-open `[start, end)` semantics; `DateRange.of(...)` convenience factory
 - [ ] Explicit `Period` (calendar) vs `Duration` (time) split if needed after usage
 - [ ] Custom token parser (`LocalDate.parse(input, 'dd/MM/yyyy')`)
 - [ ] Optional embedded tzdata fallback package for incomplete Intl hosts

@@ -26,6 +26,7 @@ export { LocalDate } from './core/local-date.js';
 export { LocalTime } from './core/local-time.js';
 export { LocalDateTime } from './core/local-datetime.js';
 export { Duration } from './core/duration.js';
+export { DateRange, Interval, type IntervalEndpoint } from './core/interval.js';
 export { isBetween } from './core/compare.js';
 
 export { ZonedDateTime, getTimeZoneProvider, setTimeZoneProvider } from './tz/zoned-datetime.js';

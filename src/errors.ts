@@ -10,7 +10,8 @@ export type TempoErrorCode =
   | 'TIMEZONE_OVERLAP'
   | 'UNKNOWN_TIMEZONE'
   | 'OUT_OF_RANGE'
-  | 'INCOMPATIBLE_UNIT';
+  | 'INCOMPATIBLE_UNIT'
+  | 'INVALID_INTERVAL';
 
 export interface TempoErrorOptions {
   readonly input?: unknown;

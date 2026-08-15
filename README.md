@@ -7,7 +7,7 @@
 Tempo is a clean-break replacement for Moment.js. It does not clone Moment’s mutable, monolithic API. It gives you explicit types, strict parsing, tree-shakable modules, and optional Moment compatibility if you are migrating.
 
 ```ts
-import { LocalDate, Instant, ZonedDateTime } from 'tempo-js';
+import { Instant, Interval, LocalDate, ZonedDateTime } from 'tempo-js';
 
 const date = LocalDate.parse('2026-06-01').plus({ days: 1 });
 date.toISO(); // '2026-06-02'
@@ -15,6 +15,9 @@ date.toISO(); // '2026-06-02'
 const instant = Instant.parse('2026-06-01T16:00:00Z');
 const ny = instant.toZonedDateTime('America/New_York');
 ny.toISO(); // '2026-06-01T12:00:00-04:00[America/New_York]'
+
+const week = Interval.of(instant, instant.plus({ days: 7 }));
+week.contains(instant); // true; intervals are immutable and half-open
 ```
 
 ## Why Tempo exists
