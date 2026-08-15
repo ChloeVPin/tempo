@@ -1,6 +1,11 @@
+<div align="center">
+
 # Tempo
 
 [![CI](https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml/badge.svg)](https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/ChloeVPin/tempo)](https://github.com/ChloeVPin/tempo/blob/main/LICENSE)
+
+</div>
 
 **A modern, immutable, Temporal-aligned date/time library for JavaScript and TypeScript.**
 
