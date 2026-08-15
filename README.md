@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/logo.png" alt="Tempo logo" width="144" />
+
 # Tempo
 
 [![CI](https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml/badge.svg)](https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml)
