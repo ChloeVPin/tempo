@@ -6,3 +6,5 @@ coverage
 .turbo
 .cache
 .eslintcache
+.stryker-tmp
+reports

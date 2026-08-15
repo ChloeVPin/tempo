@@ -51,7 +51,7 @@ Goal: correctness under adversarial inputs and timezone chaos.
 - [x] Differential tests vs Temporal polyfill (where available)
 - [x] Differential tests vs Luxon / date-fns for non-ambiguous cases
 - [ ] Optional pinned Moment tests for the compat adapter only
-- [ ] Mutation testing on `src/core/civil.ts`
+- [x] Mutation testing on `src/core/civil.ts` — **89.5% score** (258 killed), zero survivors in the civil math core; see `docs/TESTING.md`
 - [x] Browser smoke tests (Playwright)
 - [x] Bun and Deno smoke jobs
 - [x] Published size dashboard (core / format / tz / compat) — see size table below

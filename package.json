@@ -65,7 +65,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "size": "npm run build && size-limit",
-    "bench": "vitest bench --run"
+    "bench": "vitest bench --run",
+    "test:mutation": "stryker run"
   },
   "repository": {
     "type": "git",
@@ -94,6 +95,9 @@
     "@js-temporal/polyfill": "0.5.1",
     "@size-limit/file": "^11.2.0",
     "@size-limit/preset-small-lib": "^11.2.0",
+    "@stryker-mutator/core": "10.0.0",
+    "@stryker-mutator/typescript-checker": "10.0.0",
+    "@stryker-mutator/vitest-runner": "10.0.0",
     "@types/luxon": "3.7.4",
     "@types/node": "^24.2.1",
     "@vitest/coverage-v8": "^3.2.4",

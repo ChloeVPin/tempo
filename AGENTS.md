@@ -48,6 +48,7 @@ npm run lint
 npm run test:coverage
 npm run build
 npm run size
+npm run test:mutation  # Stryker on src/core/civil.ts; 89.5% score, see docs/TESTING.md
 ```
 
 CI: `.github/workflows/ci.yml` on Node 20/22/24. Public repo = unlimited Actions minutes.
