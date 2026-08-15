@@ -1,0 +1,117 @@
+{
+  "name": "tempo-js",
+  "version": "0.1.0",
+  "description": "Tempo — a modern, immutable, Temporal-aligned date/time library. A clean-break replacement for Moment.js.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./format": {
+      "types": "./dist/format/index.d.ts",
+      "import": "./dist/format/index.js",
+      "require": "./dist/format/index.cjs"
+    },
+    "./tz": {
+      "types": "./dist/tz/index.d.ts",
+      "import": "./dist/tz/index.js",
+      "require": "./dist/tz/index.cjs"
+    },
+    "./intl": {
+      "types": "./dist/intl/index.d.ts",
+      "import": "./dist/intl/index.js",
+      "require": "./dist/intl/index.cjs"
+    },
+    "./relative": {
+      "types": "./dist/relative/index.d.ts",
+      "import": "./dist/relative/index.js",
+      "require": "./dist/relative/index.cjs"
+    },
+    "./compat/moment": {
+      "types": "./dist/compat/moment/index.d.ts",
+      "import": "./dist/compat/moment/index.js",
+      "require": "./dist/compat/moment/index.cjs"
+    },
+    "./temporal": {
+      "types": "./dist/temporal/index.d.ts",
+      "import": "./dist/temporal/index.js",
+      "require": "./dist/temporal/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "size": "npm run build && size-limit",
+    "bench": "vitest bench --run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChloeVPin/tempo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChloeVPin/tempo/issues"
+  },
+  "homepage": "https://github.com/ChloeVPin/tempo#readme",
+  "keywords": [
+    "date",
+    "time",
+    "datetime",
+    "timezone",
+    "temporal",
+    "immutable",
+    "moment",
+    "luxon",
+    "dayjs",
+    "date-fns",
+    "iso8601"
+  ],
+  "author": "Chloe Valesquez",
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@size-limit/file": "^11.2.0",
+    "@size-limit/preset-small-lib": "^11.2.0",
+    "@types/node": "^24.2.1",
+    "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.33.0",
+    "fast-check": "^4.2.0",
+    "prettier": "^3.6.2",
+    "size-limit": "^11.2.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.1",
+    "vitest": "^3.2.4"
+  },
+  "size-limit": [
+    {
+      "path": "dist/index.js",
+      "limit": "12 kB"
+    },
+    {
+      "path": "dist/format/index.js",
+      "limit": "6 kB"
+    }
+  ]
+}
