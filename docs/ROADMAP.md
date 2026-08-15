@@ -54,7 +54,7 @@ Goal: correctness under adversarial inputs and timezone chaos.
 - [ ] Mutation testing on `src/core/civil.ts`
 - [x] Browser smoke tests (Playwright)
 - [x] Bun and Deno smoke jobs
-- [ ] Published size dashboard (core / format / tz / compat)
+- [x] Published size dashboard (core / format / tz / compat) — see size table below
 
 ## Phase 2 — 1.0 candidate
 
@@ -106,6 +106,24 @@ These stay out of the default bundle.
 | 2026-08-14 | Intl is the primary timezone engine. | Host tzdata stays current; no huge default bundle. |
 | 2026-08-14 | Moment compat is a module, not the core API. | Avoids freezing bad patterns into Tempo. |
 | 2026-08-14 | Token style is `yyyy-MM-dd`, not Moment `YYYY-MM-DD`. | Avoids week-year footgun. Compat layer maps Moment tokens. |
+| 2026-08-15 | `format` / `toLocaleString` / `relativeTime` leave the main barrel (WP5). | Main barrel is core + tz only: 10.4 → 8.9 kB min+gzip (7.8 kB brotli). Unpublished 0.x; subpath entries already exist. |
+
+## Size dashboard (WP5, 2026-08-15)
+
+Min+gzip of the built entries (measured via esbuild transform + zlib):
+
+| Entry | gzip |
+|---|---:|
+| `tempo-js` (core + tz) | 8.9 kB |
+| `tempo-js/format` | 1.6 kB |
+| `tempo-js/tz` (core + tz) | 8.8 kB |
+| `tempo-js/intl` | 0.4 kB |
+| `tempo-js/relative` | 3.7 kB |
+| `tempo-js/compat/moment` | 11.0 kB |
+| `tempo-js/temporal` | 9.0 kB |
+| core only (no tz/format/intl/relative) | 7.1 kB |
+
+size-limit gates `dist/index.js` at 10 kB and `dist/format/index.js` at 6 kB, reporting gzip in CI.
 
 ## Open questions (resolved unless reopened)
 

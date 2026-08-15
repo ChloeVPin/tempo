@@ -102,6 +102,8 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 
 ## WP5 — Size and module graph (Phase 1 / 1.0 prep)
 
+**Status: done** (2026-08-15). `format` / `toLocaleString` / `relativeTime` removed from the main barrel — use the subpath entries. Main barrel 10.4 → 8.9 kB min+gzip (7.8 kB brotli). Full gzip table recorded in `docs/ROADMAP.md`; size-limit gates gzip (10 kB index / 6 kB format).
+
 **Goal:** default import closer to the design budget (core 4–6 kB gzip).
 
 **Do**

@@ -134,7 +134,7 @@ Unbounded on purpose. LRU later only if measured.
 - ESM-first, `"sideEffects": false`
 - Subpath exports as in `package.json`
 - Do not import `compat` or `temporal` from `src/index.ts`
-- Main barrel currently *does* export format/intl/relative (size tradeoff)
+- `format` / `toLocaleString` / `relativeTime` are **not** in the main barrel (WP5): they live on `tempo-js/format`, `tempo-js/intl`, `tempo-js/relative`
 
 ## Clock
 

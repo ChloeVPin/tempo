@@ -11,7 +11,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `src/errors.ts` | done | indirect | `TempoError` + `ParseResult` |
 | `src/types.ts` | done | excluded from coverage | Shared unions |
 | `src/clock.ts` | done | `tests/unit/intl.test.ts` | `useFixedClock` |
-| `src/index.ts` | done | excluded | Main barrel; also exports format/intl/relative |
+| `src/index.ts` | done | excluded | Main barrel: core + tz only; format/intl/relative are subpath entries (WP5) |
 | `src/core/civil.ts` | done | `civil.test.ts`, property | **Must use `truncDiv`** |
 | `src/core/range.ts` | done | via civil/instant | ES Date bounds |
 | `src/core/overflow.ts` | partial | via LocalDate | `requireInteger` / `requireFinite` barely used |

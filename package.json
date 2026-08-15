@@ -109,11 +109,15 @@
   "size-limit": [
     {
       "path": "dist/index.js",
-      "limit": "12 kB"
+      "limit": "10 kB",
+      "gzip": true,
+      "brotli": true
     },
     {
       "path": "dist/format/index.js",
-      "limit": "6 kB"
+      "limit": "6 kB",
+      "gzip": true,
+      "brotli": true
     }
   ]
 }

@@ -32,6 +32,6 @@ export { ZonedDateTime, getTimeZoneProvider, setTimeZoneProvider } from './tz/zo
 export { formatOffset, parseOffset } from './tz/offset.js';
 export { intlTimeZoneProvider } from './tz/intl-provider.js';
 
-export { format } from './format/format.js';
-export { toLocaleString } from './intl/locale-format.js';
-export { relativeTime, fromNow } from './relative/relative-time.js';
+// format / toLocaleString / relativeTime intentionally live on subpath
+// entries (`tempo-js/format`, `tempo-js/intl`, `tempo-js/relative`) so the
+// main barrel stays core + zoned only. See docs/WORK-PACKAGES.md WP5.

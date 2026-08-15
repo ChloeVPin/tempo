@@ -77,7 +77,7 @@ tempo-js/temporal        src/temporal/index.ts
 
 `"sideEffects": false`. Zero runtime dependencies.
 
-**Drift:** `src/index.ts` currently re-exports `format`, `toLocaleString`, and `relativeTime`. That pulls those modules into the main bundle. Design wanted them optional. Do not add `compat` or `temporal` to the main barrel. Splitting format/intl/relative *out* of `index.ts` is a valid size win later; it is a breaking import-path change if anyone already uses `import { format } from 'tempo-js'`.
+**Barrel (WP5, 2026-08-15):** `format`, `toLocaleString`, and `relativeTime` are **not** re-exported from `src/index.ts` — they live on `tempo-js/format`, `tempo-js/intl`, `tempo-js/relative`. Main barrel is core + tz only (8.9 kB min+gzip). Do not add `compat` or `temporal` to the main barrel, and do not re-add format/intl/relative without a size review.
 
 ### 4.2 Factory registration (do not “clean this up” casually)
 
