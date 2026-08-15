@@ -166,7 +166,7 @@ Treat these as **documented incomplete work**, not surprises.
 9. **Coverage thresholds** were raised to lines 74 / functions 62 / branches 72 in WP3; `src/temporal/**` and `src/core/compare.ts` are now tested and removed from the excludes. Remaining excludes: `src/**/index.ts`, `src/iso/format.ts`, `src/types.ts`, `src/tz/types.ts`.
 10. **Temporal interop is tested locally** with a fake `globalThis.Temporal`; native Temporal is not assumed in CI.
 11. **Moment adapter is a subset.** No `isValid() === false` objects, no global locale, no `moment.fn`, no `'01/02/26'` parse. `isValid()` always returns `true` because construction throws instead.
-12. **Parser fuzz exists** (`tests/fuzz/parse.fuzz.test.ts`) but is light (200 strings, 50 ms bound).
+12. **Parser fuzz exists** (`tests/fuzz/parse.fuzz.test.ts`): 4 suites, TempoError-only crash guard plus a whole-property wall-clock DoS budget (the old per-input <50 ms bound flaked under GC).
 13. **Phase 1 runtime jobs are present** for Playwright, Bun, and Deno; CI remains the authority for host-specific results.
 14. **`scripts/` is empty.** Debug scripts are not part of the product.
 

@@ -38,13 +38,13 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 
 ## WP2 — Parser and Temporal differential (Phase 1)
 
-**Status: done** (2026-08-15). Fuzz grew to 4 suites (ascii ≤512, unicode/control via `unit: 'binary'`, ISO-fragment splicing, fixed adversarial list) — TempoError-only throws, <50 ms/input. `tests/differential/temporal.test.ts` is skip-safe and passes 6/6 against pinned `@js-temporal/polyfill@0.5.1` via the `temporal-diff` CI job (`vitest.temporal.config.ts`).
+**Status: done** (2026-08-15). Fuzz grew to 4 suites (ascii ≤512, unicode/control via `unit: 'binary'`, ISO-fragment splicing, fixed adversarial list) — TempoError-only throws, whole-property wall-clock DoS budget. `tests/differential/temporal.test.ts` is skip-safe and passes 6/6 against pinned `@js-temporal/polyfill@0.5.1` via the `temporal-diff` CI job (`vitest.temporal.config.ts`).
 
 **Goal:** parsers stay bounded; semantics match Temporal where Temporal exists.
 
 **Do**
 
-1. Strengthen `tests/fuzz/parse.fuzz.test.ts`: longer strings, unicode, mixed `T`/` `, extra fraction digits, duplicate `P`/`T`. Assert no throw other than `TempoError` and runtime < 50 ms per input.
+1. Strengthen `tests/fuzz/parse.fuzz.test.ts`: longer strings, unicode, mixed `T`/` `, extra fraction digits, duplicate `P`/`T`. Assert no throw other than `TempoError` and a whole-property wall-clock DoS budget (per-input <50 ms bounds flake under GC).
 2. Add `tests/differential/temporal.test.ts` that **skips** when `typeof Temporal === 'undefined'`. Where present, compare:
    - ISO date/datetime/instant parse
    - `plus({ months: 1 })` on month-end

@@ -29,6 +29,14 @@ describe('intl locale formatting', () => {
     });
     expect(text.length).toBeGreaterThan(0);
   });
+
+  it('formats civil years 0-99 literally, not 1900-1999', () => {
+    expect(toLocaleString(LocalDate.of(50, 1, 1), 'en-US', { year: 'numeric' })).toBe('50');
+    expect(toLocaleString(LocalDate.of(99, 1, 1), 'en-US', { year: 'numeric' })).toBe('99');
+    expect(toLocaleString(LocalDateTime.of(50, 1, 1, 12, 0), 'en-US', { year: 'numeric' })).toBe(
+      '50',
+    );
+  });
 });
 
 describe('clock', () => {

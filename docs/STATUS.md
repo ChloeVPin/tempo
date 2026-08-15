@@ -16,7 +16,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `src/core/range.ts` | done | via civil/instant | ES Date bounds |
 | `src/core/overflow.ts` | partial | via LocalDate | `requireInteger` / `requireFinite` barely used |
 | `src/core/compare.ts` | done | `compare.test.ts` | `isBetween` + `compareValues`; no longer excluded |
-| `src/core/duration.ts` | done | `duration.test.ts` | ISO parse + `total()` |
+| `src/core/duration.ts` | done | `duration.test.ts` | ISO parse + `total()`; sub-second fields normalize at construction so `toISO`/`toJSON` round-trip; fractional weeks keep sub-day remainder; `tryParse` never throws |
 | `src/core/interval.ts` | done | `interval.test.ts` | Generic immutable half-open intervals; `DateRange` factory |
 | `src/core/local-date.ts` | done | `local-date.test.ts` | 1-based months |
 | `src/core/local-time.ts` | done | `local-time.test.ts` | Wraps at midnight |
@@ -33,10 +33,10 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `src/iso/parse.ts` | missing | — | Parse lives on each type |
 | `src/iso/scan.ts` | missing | — | Aspirational |
 | `src/format/tokens.ts` | done | `format.test.ts` | |
-| `src/format/format.ts` | done | `format.test.ts` | In-module token cache |
+| `src/format/format.ts` | done | `format.test.ts` | In-module token cache; weekday via civil math (no `Date.UTC` 0–99 drift); localized day-period token |
 | `src/format/parse.ts` | done | `custom-parse.test.ts` | Strict numeric LocalDate token parser; locale parsing deferred |
 | `src/format/compiler.ts` | n/a | — | Not a separate file |
-| `src/intl/*` | done | `intl.test.ts` | |
+| `src/intl/*` | done | `intl.test.ts` | Civil years route through `utcMillis`, not `Date.UTC` |
 | `src/relative/relative-time.ts` | partial | `relative.test.ts` | One case |
 | `src/compat/moment.ts` | done | `compat-moment.test.ts`, Moment differential | Common subset only; oracle-tested against pinned Moment packages |
 | `src/compat/format-map.ts` | done | via compat | Moment → Tempo tokens |
@@ -51,7 +51,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `tests/golden/timezone.golden.test.ts` | done | 8 baseline + 26 transition rows; ICU-history-guarded Apia / São Paulo 2018 |
 | `tests/unit/civil-walk.test.ts` | done | 73,414-day walk 1900-01-01..2100-12-31 |
 | `tests/helpers/intl-history.ts` | done | Direct-Intl probe; decides ICU-history skips |
-| `tests/fuzz/parse.fuzz.test.ts` | done | 4 suites; TempoError-only, <50 ms/input |
+| `tests/fuzz/parse.fuzz.test.ts` | done | 4 suites; TempoError-only crash guard + whole-property wall-clock DoS budget |
 | `tests/bench/core.bench.ts` | done | Core microbenchmarks; not in CI |
 | `tests/bench/moment.bench.ts` | done | Same-process Tempo vs pinned `moment@2.30.1`; not in CI |
 | `tests/differential/temporal.test.ts` | done | Skip-safe; passes 6/6 vs pinned polyfill in CI |

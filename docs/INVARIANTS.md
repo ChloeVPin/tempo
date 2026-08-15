@@ -105,6 +105,21 @@ Adding `{ hours: n }` is **instant** math.
 | `Duration.of({ hours: 2, minutes: 30 }).total('minute')` | `150` |
 | `Duration.of({ months: 1 }).total('day')` | throws `INCOMPATIBLE_UNIT` |
 | `Duration.parse('2 hours')` | fail |
+| `Duration.parse('PT0.5H').toISO()` | `'PT30M'` |
+| `Duration.parse('PT1.5M').toISO()` | `'PT1M30S'` |
+| `Duration.parse('P0.5D').toISO()` | `'PT12H'` |
+| `Duration.parse('P0.5W').toISO()` | `'P3DT12H'` (fractional weeks keep the sub-day remainder; no silent gain) |
+| `Duration.parse('PT0.9995S').toISO()` | `'PT1S'` |
+| `Duration.parse('-PT0.5H').toISO()` | `'-PT30M'` |
+| `Duration.of({ milliseconds: 1800000 }).toISO()` | `'PT30M'` |
+| `parse(toISO(x))` equals `x` | for every duration whose fraction carries into smaller units |
+
+`milliseconds` is the fractional-second field and is normalized into `[−999, 999]` at construction;
+overflow carries into seconds → minutes → hours (truncation, so the sign stays aligned). This is what keeps
+`toISO()` / `toJSON()` exact — a millisecond count ≥ 1000 must never serialize as a `.SSS` fraction.
+
+`Duration.tryParse` must never throw for any string, including numerically hostile inputs (a fraction with
+hundreds of digits overflows `Number` and must come back as `{ ok: false }`, not an exception).
 
 ## Comparison / immutability
 
@@ -137,6 +152,13 @@ Core `until` is Temporal-shaped (`other - this`). Compat `diff` is Moment-shaped
 | `format(same, 'dd/MM/yyyy')` | `'01/06/2026'` |
 | `format(same, "yyyy-MM-dd 'ok'")` | `'2026-06-01 ok'` |
 | Instant `2026-06-01T16:00:00Z` in NY, `'HH:mm XXX'` | `'12:00 -04:00'` |
+| `format(LocalDateTime.of(50, 1, 1, 0, 0).toZonedDateTime('UTC'), 'EEEE', { locale: 'en-US' })` | `'Saturday'` |
+| `toLocaleString(LocalDate.of(50, 1, 1), 'en-US', { year: 'numeric' })` | `'50'` |
+| `format(LocalDateTime.of(2026, 1, 1, 13, 5), 'a', { locale: 'en-US' })` | `'PM'` |
+| `format(same, 'a', { locale: 'zh-CN' })` | `'下午'` (day period is localized via `Intl`, not a constant) |
+
+Civil years `0–99` must stay literal everywhere. `Date.UTC(year, …)` maps them to `1900–1999`, so weekday
+and locale formatting route through the civil calendar (`daysFromCivil`) or `setUTCFullYear`, never `Date.UTC`.
 
 `YYYY` in core is **not** a week-year token. Week-year footgun stays in the Moment adapter map (`YYYY` → `yyyy` calendar year on purpose for migration of the common case).
 

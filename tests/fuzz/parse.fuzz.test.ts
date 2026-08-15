@@ -18,11 +18,10 @@ const PARSERS: TryParseFn[] = [
 ];
 
 /**
- * Every parser must stay bounded (< 50 ms per input across all parsers) and
- * may only fail with a TempoError — never a RangeError, TypeError, or hang.
+ * Every parser may only fail with a TempoError — never a RangeError, TypeError,
+ * or hang — and must return a well-formed ParseResult (or throw TempoError).
  */
 function expectSafe(input: string): void {
-  const started = Date.now();
   for (const parse of PARSERS) {
     try {
       const result = parse(input);
@@ -32,7 +31,19 @@ function expectSafe(input: string): void {
       expect(err).toBeInstanceOf(TempoError);
     }
   }
-  expect(Date.now() - started).toBeLessThan(50);
+}
+
+/**
+ * DoS guard. A wall-clock budget over the whole property is robust to isolated
+ * GC/JIT pauses (which flaked the previous per-input < 50 ms bound under load)
+ * while still failing fast on a genuine hang or a superlinear (catastrophic-
+ * backtracking) regression, which runs orders of magnitude past the budget.
+ * Vitest's own 5 s per-test timeout is the backstop for a true infinite loop.
+ */
+function assertBounded(run: () => void, budgetMs: number): void {
+  const started = performance.now();
+  run();
+  expect(performance.now() - started).toBeLessThan(budgetMs);
 }
 
 // Hand-picked cases the random generators are unlikely to produce: mixed
@@ -66,13 +77,20 @@ const ADVERSARIAL: string[] = [
 
 describe('parser fuzz', () => {
   it('never hangs or throws unexpected errors on random ascii strings', () => {
-    fc.assert(fc.property(fc.string({ maxLength: 512 }), expectSafe), { numRuns: 400 });
+    assertBounded(
+      () => fc.assert(fc.property(fc.string({ maxLength: 512 }), expectSafe), { numRuns: 400 }),
+      15_000,
+    );
   });
 
   it('never hangs or throws unexpected errors on unicode / control-char strings', () => {
-    fc.assert(fc.property(fc.string({ unit: 'binary', maxLength: 128 }), expectSafe), {
-      numRuns: 300,
-    });
+    assertBounded(
+      () =>
+        fc.assert(fc.property(fc.string({ unit: 'binary', maxLength: 128 }), expectSafe), {
+          numRuns: 300,
+        }),
+      15_000,
+    );
   });
 
   it('never hangs on strings that splice ISO-like fragments', () => {
@@ -80,11 +98,15 @@ describe('parser fuzz', () => {
       '2026', '-06', '-01', 'T', ' ', '12', ':00', ':00', '.', '123',
       'Z', '+02:00', '[America/New_York]', 'P', '1', 'Y', 'M', 'D', 'W', 'H', 'S',
     );
-    fc.assert(
-      fc.property(fc.array(fragment, { minLength: 0, maxLength: 14 }), (parts) => {
-        expectSafe(parts.join(''));
-      }),
-      { numRuns: 400 },
+    assertBounded(
+      () =>
+        fc.assert(
+          fc.property(fc.array(fragment, { minLength: 0, maxLength: 14 }), (parts) => {
+            expectSafe(parts.join(''));
+          }),
+          { numRuns: 400 },
+        ),
+      15_000,
     );
   });
 

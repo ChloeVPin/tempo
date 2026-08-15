@@ -31,6 +31,39 @@ describe('Duration', () => {
     expect(Duration.tryParse('P').ok).toBe(false);
   });
 
+  it('serializes fractional time/date fields without corrupting the value', () => {
+    const cases: Array<[string, string]> = [
+      ['PT0.5H', 'PT30M'],
+      ['PT1.5H', 'PT1H30M'],
+      ['PT1.5M', 'PT1M30S'],
+      ['P0.5D', 'PT12H'],
+      ['P1.5D', 'P1DT12H'],
+      ['PT0.9995S', 'PT1S'],
+      ['PT1.5S', 'PT1.5S'],
+      ['-PT0.5H', '-PT30M'],
+      ['P0.5W', 'P3DT12H'],
+      ['P0.25W', 'P1DT18H'],
+    ];
+    for (const [input, iso] of cases) {
+      const d = Duration.parse(input);
+      expect(d.toISO()).toBe(iso);
+      expect(JSON.parse(JSON.stringify(d))).toBe(iso);
+      expect(Duration.parse(d.toISO()).equals(d)).toBe(true);
+    }
+    // Direct construction also serializes exactly and keeps the same total value.
+    expect(Duration.of({ milliseconds: 1800000 }).toISO()).toBe('PT30M');
+    expect(Duration.of({ milliseconds: 1800000 }).total('millisecond')).toBe(1800000);
+    expect(Duration.of({ milliseconds: -1500 }).toISO()).toBe('-PT1.5S');
+  });
+
+  it('tryParse never throws, even for numerically hostile inputs', () => {
+    // A fraction with 400 digits overflows Number; tryParse must report it, not throw.
+    const hostile = `P0.${'9'.repeat(400)}D`;
+    expect(() => Duration.tryParse(hostile)).not.toThrow();
+    expect(Duration.tryParse(hostile).ok).toBe(false);
+    expect(Duration.tryParse(`PT0.${'9'.repeat(400)}H`).ok).toBe(false);
+  });
+
   it('supports sign, negation and absolute value', () => {
     const d = Duration.of({ hours: 2, minutes: 30 });
     expect(d.sign).toBe(1);

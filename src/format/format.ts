@@ -1,7 +1,7 @@
 import type { Instant } from '../core/instant.js';
 import type { LocalDate } from '../core/local-date.js';
 import type { LocalDateTime } from '../core/local-datetime.js';
-import { isoDayOfWeek } from '../core/civil.js';
+import { daysFromCivil, isoDayOfWeek } from '../core/civil.js';
 import type { LocalTime } from '../core/local-time.js';
 import { TempoError } from '../errors.js';
 import type { FormatOptions } from '../types.js';
@@ -12,6 +12,7 @@ import { tokenize, type FormatToken } from './tokens.js';
 export type Formattable = LocalDate | LocalTime | LocalDateTime | Instant | ZonedDateTime;
 
 const compilerCache = new Map<string, FormatToken[]>();
+const dayPeriodCache = new Map<string, Intl.DateTimeFormat>();
 
 export function format(value: Formattable, pattern: string, options: FormatOptions = {}): string {
   let tokens = compilerCache.get(pattern);
@@ -70,9 +71,9 @@ function fieldsOf(value: Formattable, options: FormatOptions): Fields {
 }
 
 function isoWeekday(year: number, month: number, day: number): number {
-  const utc = Date.UTC(year, month - 1, day);
-  const epochDay = Math.floor(utc / 86_400_000);
-  return isoDayOfWeek(epochDay);
+  // Use the civil calendar rather than `Date.UTC`, which interprets years 0-99 as
+  // 1900-1999 and would return the wrong weekday (and day for `Date` arithmetic).
+  return isoDayOfWeek(daysFromCivil(year, month, day));
 }
 
 function render(token: FormatToken, fields: Fields, options: FormatOptions): string {
@@ -100,7 +101,7 @@ function render(token: FormatToken, fields: Fields, options: FormatOptions): str
     case 'millisecond':
       return String(fields.millisecond).padStart(3, '0').slice(0, token.text.length);
     case 'dayPeriod':
-      return fields.hour < 12 ? (token.text.length > 1 ? 'AM' : 'AM') : 'PM';
+      return formatDayPeriod(fields.hour, options.locale);
     case 'offset':
       if (fields.offsetMs === undefined) {
         throw new TempoError('INVALID_FORMAT', 'Offset token requires a zoned value or offsetMs');
@@ -135,6 +136,22 @@ function formatWeekday(weekday: number, length: number, locale?: string): string
   }).format(date);
 }
 
+function formatDayPeriod(hour: number, locale?: string): string {
+  let formatter = dayPeriodCache.get(locale ?? '');
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, {
+      hour: 'numeric',
+      hourCycle: 'h12',
+      timeZone: 'UTC',
+    });
+    dayPeriodCache.set(locale ?? '', formatter);
+  }
+  const date = new Date(0);
+  date.setUTCHours(hour, 0, 0, 0);
+  const part = formatter.formatToParts(date).find((p) => p.type === 'dayPeriod');
+  return part?.value ?? (hour < 12 ? 'AM' : 'PM');
+}
+
 function formatOffsetToken(offsetMs: number, token: string): string {
   if (offsetMs === 0 && token === 'X') return 'Z';
   if (token === 'X' || token === 'XX') return formatOffset(offsetMs, 'basic');
@@ -148,4 +165,5 @@ function pad(n: number, length: number): string {
 
 export function clearFormatCache(): void {
   compilerCache.clear();
+  dayPeriodCache.clear();
 }

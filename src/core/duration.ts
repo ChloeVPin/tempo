@@ -39,16 +39,32 @@ export class Duration {
   }
 
   static of(fields: DurationLike): Duration {
-    return new Duration({
-      years: intField('years', fields.years),
-      months: intField('months', fields.months),
-      weeks: intField('weeks', fields.weeks),
-      days: intField('days', fields.days),
-      hours: intField('hours', fields.hours),
-      minutes: intField('minutes', fields.minutes),
-      seconds: intField('seconds', fields.seconds),
-      milliseconds: intField('milliseconds', fields.milliseconds),
-    });
+    const years = intField('years', fields.years);
+    const months = intField('months', fields.months);
+    const weeks = intField('weeks', fields.weeks);
+    const days = intField('days', fields.days);
+    let hours = intField('hours', fields.hours);
+    let minutes = intField('minutes', fields.minutes);
+    let seconds = intField('seconds', fields.seconds);
+    let milliseconds = intField('milliseconds', fields.milliseconds);
+    // `milliseconds` is the fractional-second field: `toISO()`/`toJSON()` render it
+    // as a `.SSS`-style fraction and assume it is < 1000. Fractional hour/minute/day
+    // parsing (and direct `of`/`plus` calls) can hand us a millisecond count ≥ 1000,
+    // which used to serialize as a wrong value (e.g. `PT0.5H` → `PT0.18S`). Carry the
+    // overflow into seconds/minutes/hours so every field serializes exactly. Truncation
+    // (not floor) keeps the remainder's sign aligned with the source value.
+    if (milliseconds >= MILLIS_PER_SECOND || milliseconds <= -MILLIS_PER_SECOND) {
+      const carrySeconds = Math.trunc(milliseconds / MILLIS_PER_SECOND);
+      milliseconds -= carrySeconds * MILLIS_PER_SECOND;
+      seconds += carrySeconds;
+      const carryMinutes = Math.trunc(seconds / 60);
+      seconds -= carryMinutes * 60;
+      minutes += carryMinutes;
+      const carryHours = Math.trunc(minutes / 60);
+      minutes -= carryHours * 60;
+      hours += carryHours;
+    }
+    return new Duration({ years, months, weeks, days, hours, minutes, seconds, milliseconds });
   }
 
   static from(input: Duration | DurationLike): Duration {
@@ -278,7 +294,7 @@ function parseDuration(input: string): ParseResult<Duration> {
       fracDigits = i - fracStart;
       frac = Number(input.slice(fracStart, i));
     }
-    if (!Number.isSafeInteger(whole)) return null;
+    if (!Number.isSafeInteger(whole) || !Number.isFinite(frac)) return null;
     return { whole, frac, fracDigits };
   };
 
@@ -325,9 +341,14 @@ function parseDuration(input: string): ParseResult<Duration> {
           const fracMs = Math.round((num.frac / 10 ** num.fracDigits) * scaleToMs);
           fields.milliseconds += fracMs;
         } else if (key === 'weeks') {
-          const fracDays = (num.frac / 10 ** num.fracDigits) * 7;
-          const extraDays = Math.round(fracDays);
+          // Fractional weeks decompose into whole days plus a sub-day remainder
+          // (e.g. `P0.5W` is 3.5 days → 3 days + 12 hours), instead of rounding
+          // 3.5 up to a whole 4 days and silently gaining 12 hours.
+          const totalMs = Math.round((num.frac / 10 ** num.fracDigits) * 7 * MILLIS_PER_DAY);
+          const extraDays = Math.floor(totalMs / MILLIS_PER_DAY);
+          const extraMs = totalMs - extraDays * MILLIS_PER_DAY;
           fields.days += extraDays;
+          fields.milliseconds += extraMs;
         } else if (key === 'days') {
           const extraMs = Math.round((num.frac / 10 ** num.fracDigits) * MILLIS_PER_DAY);
           fields.milliseconds += extraMs;
@@ -399,7 +420,16 @@ function parseDuration(input: string): ParseResult<Duration> {
       }
     : fields;
 
-  return { ok: true, value: Duration.of(signed) };
+  try {
+    return { ok: true, value: Duration.of(signed) };
+  } catch (err) {
+    // `tryParse` must never throw. Field validation happens inside `Duration.of`;
+    // surface it as a ParseResult instead.
+    if (err instanceof TempoError) {
+      return { ok: false, reason: err.code, message: err.message, input };
+    }
+    throw err;
+  }
 }
 
 class ParseSignal extends Error {}
