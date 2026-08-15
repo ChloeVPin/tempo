@@ -5,8 +5,8 @@
 **Repo:** https://github.com/ChloeVPin/tempo  
 **Branch:** `main`  
 **HEAD at time of writing:** current API-freeze audit commit (trust `git log`)
-**Package:** `@chloevpin/tempo@1.0.0` (metadata prepared; not published to npm yet)
-**CI:** green through the preceding public runs; verify the latest push before release
+**Package:** `@chloevpin/tempo@1.0.0` (published to npm)
+**CI:** green through run #20 for the scoped release commit; verify the latest push for future changes
 
 If HEAD has moved, trust `git log` and the tests over any SHA in this file. Trust this file over older prose in `docs/RESEARCH.md`.
 
@@ -169,7 +169,6 @@ Treat these as **documented incomplete work**, not surprises.
 12. **Parser fuzz exists** (`tests/fuzz/parse.fuzz.test.ts`) but is light (200 strings, 50 ms bound).
 13. **Phase 1 runtime jobs are present** for Playwright, Bun, and Deno; CI remains the authority for host-specific results.
 14. **`scripts/` is empty.** Debug scripts are not part of the product.
-15. **Not published to npm.** Publication of `@chloevpin/tempo@1.0.0` is the remaining explicit release step; do not run it without user approval and credentials.
 
 ## 7. Doc drift that already bit us
 
@@ -211,7 +210,7 @@ Oracles, in order: Temporal → IANA/Intl → CLDR/Intl → Luxon/date-fns → M
 
 ## 9. What to do next
 
-The hardening and API-freeze work is complete. For ordinary maintenance, start with `git status`, run the verification commands, and preserve the exact export contract. The next release action is npm publication, which requires explicit approval; embedded tzdata remains a separate optional package decision.
+The hardening, API-freeze, and 1.0.0 publication work is complete. For ordinary maintenance, start with `git status`, run the verification commands, and preserve the exact export contract. Embedded tzdata remains a separate optional package decision.
 
 ## 10. Product / naming facts
 

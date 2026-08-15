@@ -1,6 +1,6 @@
 # Tempo 1.0.0 — release announcement draft
 
-> **Status:** prepared for publication; npm publication is a separate release step.
+> **Status:** published as `@chloevpin/tempo@1.0.0`.
 
 ## Short announcement
 
@@ -123,7 +123,7 @@ Use `@chloevpin/tempo/compat/moment` as a stepping stone, not as the core API. T
 
 ## Release evidence
 
-The 1.0.0 candidate was verified with the civil walk, property tests, timezone goldens, parser fuzzing, Temporal/Luxon/date-fns differentials, Moment compat differentials, runtime smoke jobs, package export checks, and bundle-size limits. Representative core benchmarks show Tempo ahead of Moment in the measured same-process Node workloads; those numbers are regression evidence, not a universal performance claim.
+The 1.0.0 release was verified with the civil walk, property tests, timezone goldens, parser fuzzing, Temporal/Luxon/date-fns differentials, Moment compat differentials, runtime smoke jobs, package export checks, and bundle-size limits. Representative core benchmarks show Tempo ahead of Moment in the measured same-process Node workloads; those numbers are regression evidence, not a universal performance claim.
 
 ## Important runtime note
 

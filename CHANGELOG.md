@@ -18,11 +18,11 @@
 - Phase 2 decision: fixed offsets remain `ZonedDateTime` views through 1.0; no duplicate `OffsetDateTime` type without a demonstrated invariant.
 - Added a same-process Tempo-vs-pinned-Moment benchmark baseline: Tempo measured 6.4–10.7× faster across representative core parse, day arithmetic, and formatting operations on Node 22.
 - Added a public export contract test protecting the exact core+timezone main barrel and documented format/intl/relative/tz/compat/temporal subpath surfaces.
-- Completed the 1.0 API-freeze audit: singular unit names, immutable value types, strict parsing, overflow/DST policies, fixed-offset `ZonedDateTime` views, and the mixed `Duration` contract are documented and executable. npm publication and an optional embedded tzdata package remain explicit, deferred release decisions.
+- Completed and published the 1.0 API-freeze release: singular unit names, immutable value types, strict parsing, overflow/DST policies, fixed-offset `ZonedDateTime` views, and the mixed `Duration` contract are documented and executable. Optional embedded tzdata remains a separate post-1.0 product decision.
 
-## 1.0.0 readiness (unpublished)
+## 1.0.0 — 2026-08-15
 
-The API-freeze candidate is documented and contract-tested. Package metadata is now `1.0.0`, but this is not an npm release; publication remains an explicit release decision.
+The API-freeze release is published as `@chloevpin/tempo@1.0.0`. The public package, export map, runtime matrix, differential suites, civil walk, and bundle-size budgets were verified before publication.
 
 ## 0.1.0 — 2026-08-14
 

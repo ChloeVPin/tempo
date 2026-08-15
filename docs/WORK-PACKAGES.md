@@ -121,7 +121,7 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 
 ## WP6 — 1.0 API freeze candidates (Phase 2)
 
-**Status: API freeze audit complete** (2026-08-15). The exact runtime export surface is locked by `tests/unit/public-api.test.ts`; the Interval, custom parser, Duration, fixed-offset, clock, and migration decisions are documented. npm publication remains an explicit release step.
+**Status: complete** (2026-08-15). The exact runtime export surface is locked by `tests/unit/public-api.test.ts`; the Interval, custom parser, Duration, fixed-offset, clock, migration, and npm release decisions are documented.
 
 Only after WP1–WP2.
 
@@ -131,13 +131,13 @@ Locked decisions:
 2. [x] Strict numeric LocalDate custom token **parser** (`parse(input, 'dd/MM/yyyy')`) — uses tokens from `src/format/tokens.ts`; locale-sensitive parsing remains deferred.
 3. [x] Keep `Duration` as mixed fields through 1.0. Revisit `Period` only if Temporal interop or real usage demonstrates a need.
 4. [x] Keep offset zones as `ZonedDateTime` with fixed-offset IDs; defer a distinct `OffsetDateTime` until real usage requires it.
-5. Publish `@chloevpin/tempo@1.0.0` after API freeze + changelog. **Deferred:** publishing remains a separate, explicit user request.
+5. [x] Publish `@chloevpin/tempo@1.0.0` after API freeze + changelog.
 
 **Done when**
 
 - `docs/DESIGN.md` open questions are answered in writing.
 - CHANGELOG has a 1.0 readiness section.
-- npm publish is a separate, explicit user request.
+- npm publication is complete; future releases follow normal semver and CI review.
 
 ---
 

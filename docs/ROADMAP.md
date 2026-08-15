@@ -67,7 +67,7 @@ Goal: production-ready kernel with a locked contract.
 - [ ] Optional embedded tzdata fallback package for incomplete Intl hosts *(deferred to a separate optional package; not part of the default v1 contract)*
 - [x] Clock injection documented as public API
 - [x] Migration cookbook covering the 20 most common Moment calls
-- [ ] npm publish of `@chloevpin/tempo@1.0.0`
+- [x] npm publish of `@chloevpin/tempo@1.0.0`
 
 ## Phase 3 — After 1.0 (not blocking)
 
@@ -111,7 +111,7 @@ These stay out of the default bundle.
 | 2026-08-15 | Keep fixed offsets as `ZonedDateTime`; do not add `OffsetDateTime` before 1.0. | Fixed-offset IDs already preserve the instant + offset view without a second type; add a distinct type only if real usage requires different invariants. |
 | 2026-08-15 | Add a non-CI Tempo-vs-Moment benchmark baseline. | Same-process Node 22 measurements show Tempo 6.4–10.7× faster on representative core parse/arithmetic/format operations; benchmark is for regression evidence, not a universal claim. |
 
-| 2026-08-15 | Freeze the 1.0 candidate export and unit contract without publishing. | Exact runtime exports are tested; npm publication and optional tzdata remain separate release decisions. |
+| 2026-08-15 | Freeze and publish the 1.0.0 export and unit contract. | Exact runtime exports are tested; optional tzdata remains a separate post-1.0 product decision. |
 
 ## Size dashboard (WP5, 2026-08-15)
 

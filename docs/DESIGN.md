@@ -2,7 +2,7 @@
 
 A TypeScript-first, immutable, Temporal-aligned date/time library intended to replace Moment.js in modern environments.
 
-Status: Phase 1 hardening and the 1.0 API-freeze audit are landed on `main`; npm publication remains an explicit release step (see `docs/WORK-PACKAGES.md`).
+Status: Phase 1 hardening, the 1.0 API-freeze audit, and the `@chloevpin/tempo@1.0.0` npm release are landed on `main`.
 Authors: Tempo maintainers
 Date: 2026-08-14 (reconciled 2026-08-15)
 

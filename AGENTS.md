@@ -68,4 +68,4 @@ If you change civil math, DST, ISO parse, or overflow, add a test in the **same 
 
 ## Current phase
 
-Phase 1 hardening and the Phase 2 1.0 API-freeze candidate are on `main` (`@chloevpin/tempo@1.0.0` metadata prepared, not published). The API contract is audited; npm publication is an explicit release step. Start at the top of `docs/WORK-PACKAGES.md` for any remaining work.
+Phase 1 hardening and the Phase 2 1.0 API-freeze contract are on `main`; `@chloevpin/tempo@1.0.0` is published. Start at the top of `docs/WORK-PACKAGES.md` for post-1.0 maintenance or explicitly requested product work.

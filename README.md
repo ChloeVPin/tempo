@@ -6,6 +6,7 @@
 
 [![CI](https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml/badge.svg)](https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/ChloeVPin/tempo)](https://github.com/ChloeVPin/tempo/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/%40chloevpin%2Ftempo?logo=npm)](https://www.npmjs.com/package/@chloevpin/tempo)
 
 </div>
 
@@ -109,7 +110,7 @@ import { toTemporalInstant } from '@chloevpin/tempo/temporal';
 
 ## Status
 
-`1.0.0` release candidate — Phase 1 hardening and the 1.0 API-freeze candidate are on `main`. Package metadata is prepared, but npm publication remains an explicit next step. See [WORK-PACKAGES.md](docs/WORK-PACKAGES.md) for deferred work and release boundaries.
+`1.0.0` is published on npm. Phase 1 hardening and the 1.0 API-freeze contract are on `main`; future work is limited to documented post-1.0 improvements. Install [@chloevpin/tempo](https://www.npmjs.com/package/@chloevpin/tempo) or see [WORK-PACKAGES.md](docs/WORK-PACKAGES.md) for release boundaries.
 
 ## License
 
