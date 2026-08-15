@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Agent takeover pack: `AGENTS.md`, `docs/HANDOFF.md`, `docs/STATUS.md`, `docs/INVARIANTS.md`, `docs/WORK-PACKAGES.md`. Architecture doc reconciled with `src/`.
+
 ## 0.1.0 — 2026-08-14
 
 First public kernel.

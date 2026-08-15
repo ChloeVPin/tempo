@@ -2,9 +2,11 @@
 
 A TypeScript-first, immutable, Temporal-aligned date/time library intended to replace Moment.js in modern environments.
 
-Status: Phase 0 implementation
+Status: Phase 0 landed on `main`. Next: Phase 1 (see `docs/WORK-PACKAGES.md`).
 Authors: Tempo maintainers
-Date: 2026-08-14
+Date: 2026-08-14 (reconciled 2026-08-15)
+
+Taking over? Read `AGENTS.md` and `docs/HANDOFF.md` first. This file is the design rationale, not a file-level status report.
 
 ## 1. Problem
 

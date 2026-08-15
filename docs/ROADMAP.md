@@ -2,7 +2,9 @@
 
 This document is the living plan for Tempo. It records what ships in each phase, what is deferred, and why. Update it whenever a milestone lands or a decision changes.
 
-Last updated: 2026-08-14
+Last updated: 2026-08-15
+
+Agents: do not plan from this file alone. Use [`HANDOFF.md`](HANDOFF.md) + [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
 
 ## North star
 
@@ -14,7 +16,7 @@ Tempo is a TypeScript-first, immutable, Temporal-aligned date/time kernel. It is
 - `1.0` — API freeze for the core types listed below. Compat adapters may still evolve.
 - Semver after 1.0. Breaking type or overflow/disambiguation changes are major.
 
-## Phase 0 — Foundation (current)
+## Phase 0 — Foundation (landed 2026-08-15)
 
 Goal: a real repository, documented design, and a testable kernel.
 
@@ -37,7 +39,9 @@ Goal: a real repository, documented design, and a testable kernel.
 - [x] Unit, property, and golden tests
 - [x] Bundle size budgets in CI
 
-## Phase 1 — Hardening toward 0.2
+## Phase 1 — Hardening toward 0.2 (current)
+
+Sequenced as WP1–WP5 in [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
 
 Goal: correctness under adversarial inputs and timezone chaos.
 

@@ -1,5 +1,7 @@
 # Research notes (mid-2026)
 
+**Not an implementation spec.** Background only. For takeover, use `AGENTS.md` and `docs/HANDOFF.md`.
+
 Condensed from the Moment-replacement research that started this project. Live registry numbers change; verify before citing.
 
 ## Moment status

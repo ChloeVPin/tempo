@@ -1,5 +1,7 @@
 # Contributing
 
+Agents taking over the repo: start at [`AGENTS.md`](AGENTS.md), then [`docs/HANDOFF.md`](docs/HANDOFF.md). Do not treat [`docs/RESEARCH.md`](docs/RESEARCH.md) as an implementation spec.
+
 ## Development
 
 ```sh
@@ -34,4 +36,12 @@ Conventional, present-tense messages:
 
 ## Docs
 
-Update the relevant file under `docs/` when behavior or plans change. The roadmap is the source of truth for what is deferred.
+When behavior or plans change, update in the **same commit**:
+
+1. `docs/INVARIANTS.md` if a guaranteed example changed
+2. `docs/STATUS.md` if a file appeared, disappeared, or changed completeness
+3. `docs/ROADMAP.md` / `docs/WORK-PACKAGES.md` if a phase item landed
+4. `docs/API.md` if a public method changed
+5. `docs/ARCHITECTURE.md` if the tree or data flow changed
+
+`src/` + tests + invariants beat narrative docs. If they disagree, fix the narrative.

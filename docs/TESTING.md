@@ -2,6 +2,8 @@
 
 Tempo is tested as if it were a standards implementation, not a utility bag.
 
+Locked examples live in [`INVARIANTS.md`](INVARIANTS.md). Next test work is [`WORK-PACKAGES.md`](WORK-PACKAGES.md) WP1–WP3.
+
 ## Oracles (in order)
 
 1. Temporal semantics (native or a pinned polyfill)

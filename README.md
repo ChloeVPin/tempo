@@ -84,17 +84,21 @@ import { toTemporalInstant } from 'tempo-js/temporal';
 
 ## Documentation
 
+- [Docs index](docs/README.md)
+- **Taking over this repo:** [AGENTS.md](AGENTS.md) → [handoff](docs/HANDOFF.md) → [work packages](docs/WORK-PACKAGES.md)
 - [Design](docs/DESIGN.md)
 - [Architecture](docs/ARCHITECTURE.md)
-- [Roadmap and future plans](docs/ROADMAP.md)
+- [Invariants](docs/INVARIANTS.md)
+- [Implementation status](docs/STATUS.md)
+- [Roadmap](docs/ROADMAP.md)
 - [Moment migration](docs/MIGRATION.md)
 - [Testing strategy](docs/TESTING.md)
-- [Research notes](docs/RESEARCH.md)
 - [API reference](docs/API.md)
+- [Research notes](docs/RESEARCH.md) (background only)
 
 ## Status
 
-`0.1.x` — usable kernel, API may still tighten before 1.0. See the [roadmap](docs/ROADMAP.md).
+`0.1.x` — Phase 0 kernel is on `main`. API may still tighten before 1.0. Next work is listed in [WORK-PACKAGES.md](docs/WORK-PACKAGES.md).
 
 ## License
 

@@ -1,137 +1,154 @@
 # Tempo Architecture
 
-How the library is put together. Read `docs/DESIGN.md` for *why*. This file is *where* and *how*.
+How the library is put together. Read `docs/DESIGN.md` for *why* and `docs/HANDOFF.md` for *what is true right now*.
 
-## Layout
+If this file disagrees with `src/`, **the code wins**. Fix this file in the same commit.
+
+Last reconciled with `src/`: 2026-08-15.
+
+## Layout (as implemented)
 
 ```text
 src/
-  index.ts                 public core barrel
-  errors.ts                TempoError + codes
-  types.ts                 shared unit / policy types
-  clock.ts                 injectable clock for now()
+  index.ts                 public barrel (core + format + intl + relative)
+  errors.ts                TempoError + ParseResult
+  types.ts                 units, overflow, disambiguation
+  clock.ts                 injectable now()
   core/
-    civil.ts               leap years, epoch days, Hinnant algorithms
+    civil.ts               Hinnant days ↔ civil, leap years, ISO weeks
+    range.ts               epoch day / millis bounds
     overflow.ts            constrain / reject
-    instant.ts
+    compare.ts             generic compare helpers (thinly used)
+    instant.ts             Instant + parseInstantFields + zone factory hook
     local-date.ts
     local-time.ts
-    local-datetime.ts
+    local-datetime.ts      + local→zoned factory hook
     duration.ts
-    compare.ts
-    range.ts               year / millis bounds
   iso/
-    parse.ts               strict ISO / RFC 3339
-    format.ts              stable serializers
-    scan.ts                digit scanners, no catastrophic regex
+    format.ts              thin toISO() helper (parse lives on each type)
   format/
-    tokens.ts              token table
-    compiler.ts            compile pattern → formatter
-    format.ts              format(value, pattern, options)
+    tokens.ts              tokenize patterns
+    format.ts              compiled-token cache + render
+    index.ts
   tz/
-    types.ts
-    offset.ts              ±HH:mm parsing and formatting
-    provider.ts            TimeZoneProvider interface
+    types.ts               TimeZoneProvider
+    offset.ts              ±HH:mm
     intl-provider.ts       Intl.DateTimeFormat offset engine
-    fixed-offset.ts
-    zoned-datetime.ts
-    disambiguate.ts
+    disambiguate.ts        gap / overlap policy
+    zoned-datetime.ts      ZonedDateTime + factory registration
+    index.ts
   intl/
     formatter-cache.ts
     locale-format.ts
+    index.ts
   relative/
     relative-time.ts
+    index.ts
   compat/
-    moment.ts              immutable Moment-shaped facade
-    format-map.ts          Moment token → Tempo token
+    moment.ts
+    format-map.ts
+    moment/index.ts
   temporal/
     interop.ts
-tests/
-  unit/
-  property/
-  golden/
-  bench/
-docs/
+    index.ts
 ```
+
+Not in the tree (do not look for them): `iso/parse.ts`, `iso/scan.ts`, `format/compiler.ts`, `tz/provider.ts`, `tz/fixed-offset.ts`.
 
 ## Data flow
 
 ```text
-string  --strict ISO-->  typed value  --format/ISO-->  string
-                           |  ^
-                           |  | plus / with / startOf
-                           v  |
-                         fields (integers)
+string  --strict ISO on the type-->  value  --toISO/format-->  string
+                                       |
+                          plus / with / startOf
+                                       v
+                                 new value
 
 LocalDateTime + zone + policy --> ZonedDateTime (instant + zone)
 Instant + zone                  --> ZonedDateTime
-ZonedDateTime                   --> Instant (drop zone)
-ZonedDateTime                   --> LocalDateTime (drop instant identity)
+ZonedDateTime                   --> Instant
+ZonedDateTime                   --> LocalDateTime (derived fields)
 ```
 
 ## Civil math
 
-`civil.ts` is the only place that converts between `(y, m, d)` and epoch days. Everything else asks it for:
+`civil.ts` is the only place that converts `(y, m, d)` ↔ epoch days.
 
 - `daysFromCivil` / `civilFromDays`
 - `isLeapYear` / `daysInMonth` / `daysInYear`
 - ISO week fields
-- `constrainDate` / `rejectDate`
+- `constrainDate` / `requireValidDate`
+
+Use `truncDiv` (`Math.trunc`) for Hinnant integer division. `Math.floor` is wrong for year ≤ 0.
 
 Do not invent a second leap-year function.
 
 ## Parsing
 
-Parsers are hand-written scanners over a string index. They do not use unbounded regular expressions. That is a security decision: Moment’s history includes ReDoS in parse paths.
-
-A parse either consumes the entire input (after optional surrounding whitespace is rejected — ISO is exact) or fails. Trailing junk is invalid.
+Each type owns `parse` / `tryParse`. Patterns are anchored. No `Date.parse`. Entire string must match. No trim.
 
 ## Timezone provider
 
 ```ts
 interface TimeZoneProvider {
   getOffsetMs(epochMs: number, zone: string): number;
-  getPossibleOffsets(local: LocalDateTime, zone: string): number[];
+  getPossibleInstants(local: LocalDateTime, zone: string): number[];
+  guess(): string;
 }
 ```
 
-The default provider uses `Intl.DateTimeFormat#formatToParts` with a cached formatter per zone. Offsets are derived by reconstructing the local civil time and subtracting the instant.
+Default: `intlTimeZoneProvider`. Cached `Intl.DateTimeFormat('en-US', { timeZone, hourCycle: 'h23', …, era: 'short' })`. Offset = reconstructed local-as-UTC minus the instant.
 
-Disambiguation lives in `disambiguate.ts` so Temporal-compatible policy can be tested without constructing full objects.
+Fixed-offset ids (`UTC`, `GMT`, `+05:30`) short-circuit in the same provider via `offsetMsFromId`.
+
+Disambiguation is `src/tz/disambiguate.ts`. Gap probes use 3h…48h windows because a 3h-only window misses US spring-forward (NY gap is 07:00Z).
+
+## Cycle break
+
+```text
+instant.ts  --type only-->  ZonedDateTime
+local-datetime.ts --type only--> ZonedDateTime
+zoned-datetime.ts --runtime--> Instant, LocalDateTime
+              also calls registerZonedFactory / registerLocalZonedFactory
+```
+
+Loading `ZonedDateTime` (including via `src/index.ts`) arms `toZonedDateTime`.
 
 ## Caching
 
-Caches are module-level `Map`s keyed by zone or by `JSON.stringify(locale + options)`:
+Module-level `Map`s:
 
-- `Intl.DateTimeFormat` instances
-- compiled token formatters
+- Intl timezone formatters (per zone)
+- Token-format compilers (per pattern)
+- Locale `DateTimeFormat` (per locale+options)
+- RelativeTimeFormat (per locale+style)
 
-Caches are unbounded for the common case (a handful of zones and patterns). A future version may add an LRU if measurements show growth in long-lived servers that format thousands of dynamic patterns.
+Unbounded on purpose. LRU later only if measured.
 
 ## Immutability
 
-Classes expose `readonly` fields and never assign after construction. Methods return new instances. There is no `clone()` on core types because nothing mutates; the Moment adapter implements `clone()` as identity-plus-new-wrapper.
+`readonly` fields, private constructors, methods return new instances. Core types have no `clone()`. Compat `clone()` wraps the same `ZonedDateTime`.
 
 ## Tree-shaking
 
 - ESM-first, `"sideEffects": false`
-- Subpath exports for format / tz / relative / compat / temporal
-- No top-level `Intl` construction in `core/`
-- Compat and Temporal interop must not be imported by `src/index.ts`
+- Subpath exports as in `package.json`
+- Do not import `compat` or `temporal` from `src/index.ts`
+- Main barrel currently *does* export format/intl/relative (size tradeoff)
 
 ## Clock
 
-`now()`, `today()`, and relative-time “now” go through `src/clock.ts`. Tests install a fixed clock. Production uses `Date.now`.
+`src/clock.ts`. Tests: `useFixedClock`. Production: `Date.now`.
 
 ## What must stay correct
 
-If you change one of these, add tests in the same commit:
+See `docs/INVARIANTS.md`. Short list:
 
-1. Hinnant epoch-day conversion
+1. Hinnant epoch-day conversion including year ≤ 0
 2. February 29 arithmetic
 3. Month-end constrain
 4. ISO week-year around Jan 1
-5. DST gap and overlap in `America/New_York` and `Europe/London`
-6. Non-hour offsets (`Asia/Kolkata`, `Asia/Kathmandu`)
-7. `startOf('day')` when midnight does not exist
-8. Instant ordering across offset changes
+5. DST gap and overlap in `America/New_York` (and London once WP1 lands)
+6. Non-hour offsets
+7. Instant identity through zoned round-trip
+8. Moment adapter `diff` sign (`this - other`)
