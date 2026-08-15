@@ -48,7 +48,7 @@ npm run lint
 npm run test:coverage
 npm run build
 npm run size
-npm run test:mutation  # Stryker on src/core/civil.ts; 90.2% score on the latest run, see docs/TESTING.md
+npm run test:mutation  # Stryker on src/core/civil.ts; ~89–91% across local runs, see docs/TESTING.md
 ```
 
 CI: `.github/workflows/ci.yml` on Node 20/22/24. Public repo = unlimited Actions minutes.
@@ -63,7 +63,7 @@ If you change civil math, DST, ISO parse, or overflow, add a test in the **same 
 - Treat Moment as a correctness oracle for core types. Moment is only an oracle for the compat adapter.
 - Import `src/compat` or `src/temporal` from `src/index.ts`.
 - Invent a second `isLeapYear`.
-- Use `Math.floor` for Hinnant `era` division. Year 0 / negative years will silently break. See `docs/INVARIANTS.md`.
+- Do not use `Math.floor` for Hinnant `era` division. Year 0 / negative years will silently break. See `docs/INVARIANTS.md`.
 - Commit `dist/`, `coverage/`, or `node_modules/`.
 
 ## Current phase

@@ -35,9 +35,9 @@ Latest local verification:
 - 23 test files passed, 1 Temporal differential file skipped; **155 passed / 6 skipped**
 - `tsc --noEmit` clean
 - ESLint clean
-- Coverage **81.62% lines / 73.2% functions / 82.95% branches**
+- Coverage **81.95% lines / 73.2% functions / 83.05% branches**
 - Main entry **9.85 kB gzip** (10 kB limit); format entry **1.55 kB gzip** (6 kB limit)
-- Stryker on `src/core/civil.ts`: **90.2%**, 258 killed, zero survivors in the civil math core
+- Stryker on `src/core/civil.ts`: **~89–91% across local runs** (256–263 killed, 5–8 timeouts), zero meaningful survivors in the civil math core; see `docs/TESTING.md`
 
 ## 3. What you must not redo
 

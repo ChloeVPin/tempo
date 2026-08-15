@@ -10,7 +10,7 @@ Tempo is a clean break. The core API is Temporal-shaped, immutable, and strict. 
 | One object for everything | `Instant`, `LocalDate`, `LocalTime`, `LocalDateTime`, `ZonedDateTime` |
 | `month()` is 0-based | `month` is 1–12 |
 | `date()` vs `day()` | `day` is day-of-month. Weekday is `dayOfWeek` (ISO 1–7). |
-| `moment(string)` heuristics | Strict ISO. Other formats need an explicit pattern (later) or the compat parser. |
+| `moment(string)` heuristics | Strict ISO. Other supported numeric LocalDate formats need an explicit pattern; use the compat parser only as a migration bridge. |
 | `moment.locale('fr')` | Pass `{ locale: 'fr-FR' }` into the call. |
 | Invalid objects | Throws, or `tryParse` returns `{ ok: false }` |
 | `YYYY` week-year footgun | Token `yyyy` is calendar year. Week year is `YYYY` only in the Moment adapter. |

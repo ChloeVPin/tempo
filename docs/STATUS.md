@@ -1,6 +1,6 @@
 # Implementation status
 
-Last updated: 2026-08-15 (1.0 API-freeze audit). Update a row when you land or delete the file.
+Last updated: 2026-08-15 (release-polish audit). Update a row when you land or delete the file.
 
 Legend: **done** = implemented + at least one test · **partial** = exists, thin tests or known gaps · **missing** = not in tree · **n/a** = decided against for v1
 
@@ -77,7 +77,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `vitest.temporal.config.ts` | done | Differential-only config; injects pinned polyfill |
 | `vitest.config.ts` | done | Thresholds 74/62/72 (lines/functions/branches); excludes: index.ts, iso/format.ts, types.ts, tz/types.ts |
 | `vitest.mutation.config.ts` | done | Scoped suites for Stryker runs on `src/core/civil.ts` |
-| `stryker.config.json` | done | Mutates `src/core/civil.ts`; TS checker; **90.2% score on latest run** (see `docs/TESTING.md`) |
+| `stryker.config.json` | done | Mutates `src/core/civil.ts`; TS checker; **~89–91% across local runs** (see `docs/TESTING.md`) |
 | `eslint.config.js` | done | Runtime-smoke globals for `tests/runtime/**` |
 | `.github/workflows/ci.yml` | done | Node matrix + coverage + build/size + temporal-diff + bun/deno/playwright smokes |
 | size-limit on `dist/index.js` and `dist/format/index.js` | done |

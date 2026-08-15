@@ -91,29 +91,21 @@ claim.
 
 `npm run test:mutation` runs Stryker (`stryker.config.json`) against `src/core/civil.ts`
 only, using a scoped vitest config (`vitest.mutation.config.ts`) with the civil,
-walk, property, and local-date suites. Result (2026-08): **90.2% mutation
-score** — 258 killed, 9 timeouts — with **zero survivors in the math core**
-(`isLeapYear`, `daysInMonth`, `daysFromCivil`, `civilFromDays`, `isoDayOfWeek`,
-`dayOfYear`, `quarterOf`, `isoWeekFields`, `dateFromIsoWeek` computation). The
-walk + property tests are therefore real, not tautological.
+walk, property, and local-date suites. Recent local runs scored **89.19% to
+90.54%** (256–263 killed, 5–8 timeouts) because Stryker's Vitest test
+attribution and timeout scheduling vary between runs. All runs showed **zero
+meaningful survivors in the math core** (`isLeapYear`, `daysInMonth`,
+`daysFromCivil`, `civilFromDays`, `isoDayOfWeek`, `dayOfYear`, `quarterOf`,
+`isoWeekFields`, and the `dateFromIsoWeek` computation). The walk + property
+tests are therefore real, not tautological.
 
-Survivor classification from the latest run (28 testable survivors, plus 1 no-coverage):
+The remaining survivors are classified as equivalent boundary comparisons,
+redundant validation already enforced downstream, unreachable formatter/domain
+branches, or attribution-only survivors in the directly tested validation
+error block. Hand-applying the `if (false)` validation mutant makes the civil
+suite fail. One negative-input `pad2` literal has no coverage because callers
+never produce negative padding widths.
 
-- **8 redundant validation survivors** — `isValidDate` integer/month checks are
-  already implied by fractional epoch-day rejection and `DAYS_IN_MONTH[m] ?? 0`.
-- **8 attribution survivors** — the `requireValidDate` integer-error block
-  (lines 95–97) has a direct test asserting code, message, and input, but the
-  Vitest runner's per-test coverage attribution excludes that test from these
-  mutants. Hand-applying the `if (false)` mutant makes the civil suite fail.
-- **4 constrain boundary survivors** — changing `<`/`>` to inclusive comparisons
-  is a no-op when the value is already at the clamp boundary.
-- **3 ISO-week existence survivors** — the alternate checks are equivalent for
-  the constructed candidate.
-- **5 formatter/domain survivors** — pad and year-format branches are unreachable
-  or equivalent for their supported input domains.
-- **1 no-coverage** — the `'-'` literal in `pad2`, reachable only for negative
-  input, which callers never produce.
-
-30 type-invalid mutants are `CompileError` and excluded from the score by
+Thirty type-invalid mutants are `CompileError` and excluded from the score by
 Stryker. To see the per-mutant report: `npx stryker run --reporters json` →
 `reports/mutation/mutation.json`.

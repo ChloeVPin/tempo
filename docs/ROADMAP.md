@@ -2,7 +2,7 @@
 
 This document is the living plan for Tempo. It records what ships in each phase, what is deferred, and why. Update it whenever a milestone lands or a decision changes.
 
-Last updated: 2026-08-15 (1.0 API-freeze audit)
+Last updated: 2026-08-15 (release-polish audit)
 
 Agents: do not plan from this file alone. Use [`HANDOFF.md`](HANDOFF.md) + [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
 
@@ -51,7 +51,7 @@ Goal: correctness under adversarial inputs and timezone chaos.
 - [x] Differential tests vs Temporal polyfill (where available)
 - [x] Differential tests vs Luxon / date-fns for non-ambiguous cases
 - [x] Optional pinned Moment tests for the compat adapter only (`moment@2.30.1`, `moment-timezone@0.5.48`)
-- [x] Mutation testing on `src/core/civil.ts` — **90.2% score** (258 killed, 9 timeouts), zero survivors in the civil math core; see `docs/TESTING.md`
+- [x] Mutation testing on `src/core/civil.ts` — **~89–91% across local runs** (256–263 killed, 5–8 timeouts), zero meaningful survivors in the civil math core; see `docs/TESTING.md`
 - [x] Browser smoke tests (Playwright)
 - [x] Bun and Deno smoke jobs
 - [x] Published size dashboard (core / format / tz / compat) — see size table below
