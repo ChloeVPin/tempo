@@ -62,11 +62,11 @@ Goal: production-ready kernel with a locked contract.
 
 - [ ] API freeze and changelog
 - [x] Generic immutable `Interval` with half-open `[start, end)` semantics; `DateRange.of(...)` convenience factory
-- [ ] Explicit `Period` (calendar) vs `Duration` (time) split if needed after usage
+- [x] Keep mixed `Duration` through 1.0; no `Period` split unless Temporal interop or usage demonstrates the need
 - [x] Strict numeric custom token parser (`LocalDate.parse(input, 'dd/MM/yyyy')`); locale/month-name parsing remains deferred
 - [ ] Optional embedded tzdata fallback package for incomplete Intl hosts
-- [ ] Clock injection documented as public API
-- [ ] Migration cookbook covering the 20 most common Moment calls
+- [x] Clock injection documented as public API
+- [x] Migration cookbook covering the 20 most common Moment calls
 - [ ] npm publish of `tempo-js@1.0.0`
 
 ## Phase 3 — After 1.0 (not blocking)
@@ -107,6 +107,7 @@ These stay out of the default bundle.
 | 2026-08-14 | Moment compat is a module, not the core API. | Avoids freezing bad patterns into Tempo. |
 | 2026-08-14 | Token style is `yyyy-MM-dd`, not Moment `YYYY-MM-DD`. | Avoids week-year footgun. Compat layer maps Moment tokens. |
 | 2026-08-15 | `format` / `toLocaleString` / `relativeTime` leave the main barrel (WP5). | Main barrel is core + tz only: 10.4 → 8.9 kB min+gzip (7.8 kB brotli). Unpublished 0.x; subpath entries already exist. |
+| 2026-08-15 | Keep one mixed `Duration` through 1.0; do not add `Period` yet. | Existing calendar/time fields already match the current Temporal interop shape; a split would add API and migration cost without a demonstrated need. |
 
 ## Size dashboard (WP5, 2026-08-15)
 

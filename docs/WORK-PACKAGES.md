@@ -129,9 +129,9 @@ Pick with the user if still open:
 
 1. [x] Generic `Interval<T>` (`start`, `end`) with half-open `[start, end)` default; `DateRange.of(...)` for `LocalDate`.
 2. [x] Strict numeric LocalDate custom token **parser** (`parse(input, 'dd/MM/yyyy')`) — uses tokens from `src/format/tokens.ts`; locale-sensitive parsing remains deferred.
-3. Keep `Duration` as mixed fields **or** split `Period` (years/months/weeks/days) vs time `Duration`. Default recommendation: **split only if** Temporal interop becomes painful; otherwise keep one type through 1.0.
-4. Keep offset zones as `ZonedDateTime` (current) unless users need a distinct `OffsetDateTime`.
-5. Publish `tempo-js@1.0.0` after API freeze + changelog.
+3. [x] Keep `Duration` as mixed fields through 1.0. Revisit `Period` only if Temporal interop or real usage demonstrates a need.
+4. Keep offset zones as `ZonedDateTime` (current) unless users need a distinct `OffsetDateTime`. This remains open.
+5. Publish `tempo-js@1.0.0` after API freeze + changelog. Publishing remains a separate, explicit user request.
 
 **Done when**
 

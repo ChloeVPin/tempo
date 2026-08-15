@@ -163,7 +163,22 @@ Immutable. Strict parse. Common methods only. See `docs/MIGRATION.md`.
 
 `INVALID_DATE` `INVALID_MONTH_DAY` `INVALID_TIME` `INVALID_DURATION` `INVALID_PARSE` `INVALID_FORMAT` `INVALID_OFFSET` `TIMEZONE_GAP` `TIMEZONE_OVERLAP` `UNKNOWN_TIMEZONE` `OUT_OF_RANGE` `INCOMPATIBLE_UNIT` `INVALID_INTERVAL`
 
-## Clock (tests)
+## Clock injection
+
+Production `now()` / `today()` calls use the installed clock. Tests and deterministic applications can inject one explicitly:
+
+```ts
+import { resetClock, useFixedClock } from 'tempo-js';
+
+const restore = useFixedClock(Date.UTC(2026, 5, 1));
+// Instant.now(), LocalDate.today(), and ZonedDateTime.now() are deterministic here.
+restore();
+resetClock();
+```
+
+`useClock({ now() { return Date.UTC(2026, 5, 1); } })` installs a custom clock and returns a restore function.
+
+## Clock helpers
 
 ```ts
 import { useFixedClock, resetClock } from 'tempo-js';

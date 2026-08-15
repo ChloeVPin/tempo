@@ -74,3 +74,41 @@ Not supported on purpose: global locale mutation, plugin `moment.fn` hooks, perm
 Core Tempo formatting uses Temporal/Java tokens (`yyyy-MM-dd HH:mm:ss`). The Moment adapter accepts Moment tokens (`YYYY-MM-DD HH:mm:ss`) and maps them.
 
 If you are writing new code, use Tempo tokens. `YYYY` in Moment is ISO week-year, which is wrong at year boundaries.
+
+## 20-call cookbook
+
+The adapter is a migration bridge, not the destination. Prefer the typed core once each call site is understood.
+
+| Moment call | Tempo replacement | Notes |
+|---|---|---|
+| `moment()` | `ZonedDateTime.now()` or `Instant.now()` | Choose whether the value needs a zone. |
+| `moment.utc()` | `ZonedDateTime.now('UTC')` | For a timeline value, use `Instant.now()`. |
+| `moment(input)` | `Instant.parse(input)` / `LocalDate.parse(input)` | Core parsing is strict ISO; no `Date.parse` fallback. |
+| `moment.tz(input, zone)` | `LocalDateTime.parse(input).toZonedDateTime(zone)` | Supply DST disambiguation when local time may be ambiguous. |
+| `m.format('YYYY-MM-DD')` | `format(date, 'yyyy-MM-dd')` | Import `format` from `tempo-js/format`. |
+| `m.add(1, 'day')` | `value.plus({ days: 1 })` | Returns a new immutable value. |
+| `m.subtract(2, 'hours')` | `value.minus({ hours: 2 })` | Returns a new immutable value. |
+| `m.startOf('month')` | `value.startOf('month')` | Unit names remain explicit. |
+| `m.endOf('day')` | `value.endOf('day')` | Zoned values apply the zone’s disambiguation rules. |
+| `m.diff(other, 'days')` | `value.until(other, 'day')` | Core direction is `other - value`; compat preserves Moment’s `this - other`. |
+| `m.isBefore(other)` | `value.isBefore(other)` | Compare like-for-like types. |
+| `m.isAfter(other)` | `value.isAfter(other)` | `Instant` is usually the right timeline type. |
+| `m.isSame(other)` | `value.isSame(other)` or `value.equals(other)` | `equals` also checks the zone for `ZonedDateTime`. |
+| `m.unix()` | `instant.toEpochSeconds()` | Integer epoch seconds. |
+| `m.valueOf()` | `instant.toEpochMilliseconds()` | Integer epoch milliseconds. |
+| `m.toDate()` | `instant.toJSDate()` | Conversion is explicit and always an instant. |
+| `m.toISOString()` | `value.toISO()` | ISO output is type-specific. |
+| `m.tz('Europe/Paris')` | `zdt.withTimeZone('Europe/Paris')` | Keeps the instant, changes the view zone. |
+| `m.utcOffset()` | `zdt.offsetMs / 60_000` | Offset is a derived property of the instant and zone. |
+| `m.clone()` | No replacement needed | Tempo values are immutable; reuse the original. |
+| `m.fromNow()` | `fromNow(instant)` | Import from `tempo-js/relative`; pass locale explicitly when needed. |
+
+### Migration rules that prevent the expensive bugs
+
+1. Decide whether each old value is an `Instant`, `LocalDate`, `LocalTime`, `LocalDateTime`, or `ZonedDateTime` before translating methods.
+2. Replace Moment `YYYY` with core `yyyy`; week-year formatting is a deliberate separate concern.
+3. Replace implicit local parsing with an ISO string or an explicit custom pattern such as `LocalDate.parse('01/06/2026', 'dd/MM/yyyy')`.
+4. Audit `add({ months })` at month ends: Tempo constrains by default and never mutates the source.
+5. Audit DST gaps and overlaps: use `disambiguation: 'compatible' | 'earlier' | 'later' | 'reject'` instead of relying on an implicit host choice.
+6. Keep `moment-timezone` only while the adapter is still in use; Tempo’s core timezone engine is Intl-first and does not bundle IANA data.
+7. Do not recreate Moment’s invalid-object flow. Tempo throws or returns `tryParse(...).ok === false` immediately.
