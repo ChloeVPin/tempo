@@ -2,7 +2,7 @@
 
 This document is the living plan for Tempo. It records what ships in each phase, what is deferred, and why. Update it whenever a milestone lands or a decision changes.
 
-Last updated: 2026-08-15 (Phase 2 readiness slices)
+Last updated: 2026-08-15 (1.0 API-freeze audit)
 
 Agents: do not plan from this file alone. Use [`HANDOFF.md`](HANDOFF.md) + [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
 
@@ -51,7 +51,7 @@ Goal: correctness under adversarial inputs and timezone chaos.
 - [x] Differential tests vs Temporal polyfill (where available)
 - [x] Differential tests vs Luxon / date-fns for non-ambiguous cases
 - [x] Optional pinned Moment tests for the compat adapter only (`moment@2.30.1`, `moment-timezone@0.5.48`)
-- [x] Mutation testing on `src/core/civil.ts` — **89.5% score** (258 killed), zero survivors in the civil math core; see `docs/TESTING.md`
+- [x] Mutation testing on `src/core/civil.ts` — **90.2% score** (258 killed, 9 timeouts), zero survivors in the civil math core; see `docs/TESTING.md`
 - [x] Browser smoke tests (Playwright)
 - [x] Bun and Deno smoke jobs
 - [x] Published size dashboard (core / format / tz / compat) — see size table below
@@ -60,11 +60,11 @@ Goal: correctness under adversarial inputs and timezone chaos.
 
 Goal: production-ready kernel with a locked contract.
 
-- [ ] API freeze and changelog
+- [x] API freeze and changelog audit (exact export contract, documented units, and 1.0 readiness notes)
 - [x] Generic immutable `Interval` with half-open `[start, end)` semantics; `DateRange.of(...)` convenience factory
 - [x] Keep mixed `Duration` through 1.0; no `Period` split unless Temporal interop or usage demonstrates the need
 - [x] Strict numeric custom token parser (`LocalDate.parse(input, 'dd/MM/yyyy')`); locale/month-name parsing remains deferred
-- [ ] Optional embedded tzdata fallback package for incomplete Intl hosts
+- [ ] Optional embedded tzdata fallback package for incomplete Intl hosts *(deferred to a separate optional package; not part of the default v1 contract)*
 - [x] Clock injection documented as public API
 - [x] Migration cookbook covering the 20 most common Moment calls
 - [ ] npm publish of `tempo-js@1.0.0`
@@ -111,6 +111,8 @@ These stay out of the default bundle.
 | 2026-08-15 | Keep fixed offsets as `ZonedDateTime`; do not add `OffsetDateTime` before 1.0. | Fixed-offset IDs already preserve the instant + offset view without a second type; add a distinct type only if real usage requires different invariants. |
 | 2026-08-15 | Add a non-CI Tempo-vs-Moment benchmark baseline. | Same-process Node 22 measurements show Tempo 6.4–10.7× faster on representative core parse/arithmetic/format operations; benchmark is for regression evidence, not a universal claim. |
 
+| 2026-08-15 | Freeze the 1.0 candidate export and unit contract without publishing. | Exact runtime exports are tested; npm publication and optional tzdata remain separate release decisions. |
+
 ## Size dashboard (WP5, 2026-08-15)
 
 Min+gzip of the built entries (measured via esbuild transform + zlib):
@@ -130,4 +132,4 @@ size-limit gates `dist/index.js` at 10 kB and `dist/format/index.js` at 6 kB, re
 
 ## Open questions (resolved unless reopened)
 
-None blocking Phase 0. See `docs/DESIGN.md` for deferred product questions.
+None blocking the 1.0 candidate. Deferred product and release questions are recorded in `docs/DESIGN.md` and `docs/WORK-PACKAGES.md`.

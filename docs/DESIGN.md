@@ -2,7 +2,7 @@
 
 A TypeScript-first, immutable, Temporal-aligned date/time library intended to replace Moment.js in modern environments.
 
-Status: Phase 1 hardening landed on `main`; Phase 2 API candidates are now being implemented (see `docs/WORK-PACKAGES.md`).
+Status: Phase 1 hardening and the 1.0 API-freeze audit are landed on `main`; npm publication remains an explicit release step (see `docs/WORK-PACKAGES.md`).
 Authors: Tempo maintainers
 Date: 2026-08-14 (reconciled 2026-08-15)
 
@@ -54,9 +54,9 @@ A 2026 replacement should not clone that API. It should replace the job Moment d
 | `ZonedDateTime` | A civil datetime in a named or fixed zone | yes | yes |
 | `Duration` | A signed mix of calendar and time units | n/a | n/a |
 | `Interval<T>` | Immutable half-open range over comparable values | endpoint-defined | endpoint-defined |
-| `OffsetDateTime` | Civil datetime + fixed offset (no IANA rules) | offset only | yes |
+| Fixed-offset `ZonedDateTime` | Civil datetime + fixed offset view | offset zone | yes |
 
-`LocalDate` is never silently treated as UTC midnight or as “system local midnight.” Conversion to an instant always requires a zone (or an explicit offset).
+`LocalDate` is never silently treated as UTC midnight or as “system local midnight.” Conversion to an instant always requires a zone (or an explicit offset). A distinct `OffsetDateTime` class is deferred; fixed offsets use `ZonedDateTime` IDs such as `UTC` or `+05:30`.
 
 ## 5. Internal model
 
@@ -236,9 +236,9 @@ In priority order:
 
 | Bundle | Target min+gzip |
 |---|---:|
-| Core (date/time/instant/duration + ISO) | ≤ 6 kB |
-| Core + token format | ≤ 8 kB |
-| Core + zoned / Intl tz | ≤ 15 kB |
+| Core only (without timezone entry) | ≤ 8 kB |
+| Main core + timezone entry | ≤ 10 kB |
+| Format entry | ≤ 6 kB |
 | Moment compat | measured separately, not in core |
 
 Performance targets are relative: beat Moment on every core microbench; stay within ~20% of date-fns on simple arithmetic.
@@ -260,9 +260,9 @@ Performance targets are relative: beat Moment on every core microbench; stay wit
 
 ## 15. Open questions
 
-None blocking the current Phase 2 slice. Deferred:
+None blocking the 1.0 candidate. Deferred:
 
-- Exact token set for the custom parser (Java vs a smaller subset).
+- Locale-sensitive parsing remains deferred; the supported custom parser is the documented numeric LocalDate subset.
 
 ## 16. PR plan
 

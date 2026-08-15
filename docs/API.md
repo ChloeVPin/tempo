@@ -1,4 +1,4 @@
-# API reference (v0.1)
+# API reference (1.0 candidate)
 
 All types are immutable. Methods return new values.
 
@@ -21,7 +21,7 @@ date.minus({ days: 3 }, { overflow: 'reject' })
 date.with({ day: 31 })
 date.startOf('month')
 date.endOf('year')
-date.until(other, 'days')
+date.until(other, 'day')
 date.dayOfWeek() // ISO Monday=1
 date.isoWeek()
 date.isoWeekYear()
@@ -134,7 +134,6 @@ import { format } from 'tempo-js/format';
 
 format(date, 'yyyy-MM-dd')
 format(zdt, "yyyy-MM-dd 'at' HH:mm XXX")
-date.toLocaleString?. // or:
 import { toLocaleString } from 'tempo-js/intl';
 toLocaleString(date, 'fr-FR', { dateStyle: 'full' })
 ```
@@ -177,6 +176,12 @@ resetClock();
 ```
 
 `useClock({ now() { return Date.UTC(2026, 5, 1); } })` installs a custom clock and returns a restore function.
+
+## Public API freeze
+
+The 1.0 candidate keeps the main `tempo-js` barrel limited to core and timezone values. Formatting, locale formatting, relative time, Moment compatibility, and Temporal interop remain explicit subpath imports. Runtime export surfaces are covered by `tests/unit/public-api.test.ts`.
+
+Units use singular names (`day`, `week`, `month`, and `year`), matching the TypeScript unions and Temporal-shaped API.
 
 ## Clock helpers
 

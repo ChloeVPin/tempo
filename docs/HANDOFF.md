@@ -4,9 +4,9 @@
 **Snapshot date:** 2026-08-15  
 **Repo:** https://github.com/ChloeVPin/tempo  
 **Branch:** `main`  
-**HEAD at time of writing:** `7f25bc210e440b1d5fef43bc91448bab488e3a97`  
+**HEAD at time of writing:** current API-freeze audit commit (trust `git log`)
 **Package:** `tempo-js@0.1.0` (not published to npm yet)  
-**CI:** green on that SHA (Node 20/22/24 + coverage + size)
+**CI:** green through the preceding public runs; verify the latest push before release
 
 If HEAD has moved, trust `git log` and the tests over any SHA in this file. Trust this file over older prose in `docs/RESEARCH.md`.
 
@@ -18,7 +18,7 @@ Ship a Temporal-aligned, immutable, TypeScript-first date/time kernel that can r
 
 ## 2. What “done” already means
 
-Phase 0 is implemented and pushed. You can:
+Phase 1 hardening and the 1.0 API-freeze candidate are implemented and pushed. You can:
 
 ```ts
 import { LocalDate, Instant, ZonedDateTime, Duration } from 'tempo-js';
@@ -30,13 +30,14 @@ Instant.parse('2026-06-01T16:00:00Z')
   .toISO(); // '2026-06-01T12:00:00-04:00[America/New_York]'
 ```
 
-Local verification that was green when this handoff was written:
+Latest local verification:
 
-- 14 test files, 63 tests
+- 23 test files passed, 1 Temporal differential file skipped; **155 passed / 6 skipped**
 - `tsc --noEmit` clean
 - ESLint clean
-- Core bundle **9.07 kB** min+brotli (limit 12 kB)
-- Format entry **1.41 kB** min+brotli (limit 6 kB)
+- Coverage **81.62% lines / 73.2% functions / 82.95% branches**
+- Main entry **9.85 kB gzip** (10 kB limit); format entry **1.55 kB gzip** (6 kB limit)
+- Stryker on `src/core/civil.ts`: **90.2%**, 258 killed, zero survivors in the civil math core
 
 ## 3. What you must not redo
 
@@ -56,7 +57,7 @@ The following already exist. Improve them; do not replace them from scratch.
 | Locale format | `src/intl/` | cached `Intl.DateTimeFormat` |
 | Relative time | `src/relative/` | `Intl.RelativeTimeFormat` |
 | Moment adapter | `src/compat/moment.ts` | immutable subset |
-| Temporal interop | `src/temporal/interop.ts` | feature-detected, **untested in CI** |
+| Temporal interop | `src/temporal/interop.ts` | feature-detected; fake-Temporal tested, polyfill differential runs in CI |
 | Public CI | `.github/workflows/ci.yml` | public repo on purpose |
 
 ## 4. How the code is actually wired
@@ -154,9 +155,9 @@ See `docs/INVARIANTS.md` for executable examples. Summary:
 
 Treat these as **documented incomplete work**, not surprises.
 
-1. **`OffsetDateTime` is not a class.** Fixed offsets are `ZonedDateTime` with id `+HH:mm` / `UTC`. Design left this open.
+1. **`OffsetDateTime` is not a class.** Fixed offsets are intentionally `ZonedDateTime` views with id `+HH:mm` / `UTC` through 1.0.
 2. **`Period` is not separate from `Duration`.** One `Duration` holds years/months/weeks/days/h/m/s/ms.
-3. **No custom format parser.** `LocalDate.parse('01/02/2026', 'dd/MM/yyyy')` does not exist.
+3. **Custom parsing is intentionally narrow.** `LocalDate.parse('01/02/2026', 'dd/MM/yyyy')` exists; locale-sensitive names, weekdays, times, offsets, and zones are deferred.
 4. **`Interval` / `DateRange` are now implemented** as immutable half-open `[start, end)` ranges; see `src/core/interval.ts`.
 5. **`LocalDateTime.until(..., 'day'|'week'|'month'|'year')` uses the date part only** and ignores time-of-day. Time units use naive UTC millis. This is a real semantic gap vs Temporal. Do not “fix” it silently — add tests and document if you change it.
 6. **`ZonedDateTime.isDST()` is a heuristic** (compare offset to the min offset ±180 days). Not IANA-authoritative.
@@ -168,13 +169,13 @@ Treat these as **documented incomplete work**, not surprises.
 12. **Parser fuzz exists** (`tests/fuzz/parse.fuzz.test.ts`) but is light (200 strings, 50 ms bound).
 13. **Phase 1 runtime jobs are present** for Playwright, Bun, and Deno; CI remains the authority for host-specific results.
 14. **`scripts/` is empty.** Debug scripts are not part of the product.
-15. **Not published to npm.**
+15. **Not published to npm.** Publication of `tempo-js@1.0.0` is the remaining explicit release step; do not run it without user approval and credentials.
 
 ## 7. Doc drift that already bit us
 
 `docs/ARCHITECTURE.md` used to list files that were never created (`iso/parse.ts`, `iso/scan.ts`, `format/compiler.ts`, `tz/provider.ts`, `tz/fixed-offset.ts`) and the wrong provider method name. The architecture file has been corrected to match `src/`. **If you add those files later, update STATUS + ARCHITECTURE in the same commit.**
 
-`docs/DESIGN.md` still describes `OffsetDateTime` as a recommended type. It is not implemented. Leave it as a deferred question unless you implement it.
+`docs/DESIGN.md` records fixed-offset `ZonedDateTime` as the 1.0 decision; a distinct `OffsetDateTime` remains deferred.
 
 ## 8. How to work
 
@@ -210,13 +211,7 @@ Oracles, in order: Temporal → IANA/Intl → CLDR/Intl → Luxon/date-fns → M
 
 ## 9. What to do next
 
-Implement `docs/WORK-PACKAGES.md` from the top. Do not skip WP1 (correctness) to chase features.
-
-Suggested first session for a larger model:
-
-1. Confirm `npm test && npm run typecheck` on a clean checkout.
-2. Read `INVARIANTS.md` and run those examples mentally against the tests.
-3. Start **WP1** (timezone goldens + civil walk) unless the user named a different goal.
+The hardening and API-freeze work is complete. For ordinary maintenance, start with `git status`, run the verification commands, and preserve the exact export contract. The next release action is npm publication, which requires explicit approval; embedded tzdata remains a separate optional package decision.
 
 ## 10. Product / naming facts
 
@@ -239,8 +234,9 @@ Already decided. See also `docs/ROADMAP.md` decision log.
 - Millisecond instants
 - Single package for v1
 
-Still open (do not pick silently if it affects public API; ask the user):
+Still deferred (do not implement silently):
 
-- Separate `Period` type before 1.0?
-- First-class `OffsetDateTime` vs offset-as-zone?
-- Custom parser token set (full Java vs smaller subset)?
+- Separate `Period` type: mixed `Duration` is frozen through 1.0.
+- First-class `OffsetDateTime`: fixed-offset `ZonedDateTime` views are frozen through 1.0.
+- Locale-sensitive parsing and expanded token grammar.
+- Optional embedded tzdata fallback package.

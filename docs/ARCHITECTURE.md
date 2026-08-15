@@ -4,13 +4,13 @@ How the library is put together. Read `docs/DESIGN.md` for *why* and `docs/HANDO
 
 If this file disagrees with `src/`, **the code wins**. Fix this file in the same commit.
 
-Last reconciled with `src/`: 2026-08-15.
+Last reconciled with `src/`: 2026-08-15 (1.0 API-freeze audit).
 
 ## Layout (as implemented)
 
 ```text
 src/
-  index.ts                 public barrel (core + tz; format/intl/relative are subpaths)
+  index.ts                 public barrel (core + tz; format/intl/relative are subpaths; export surface frozen by public-api.test.ts)
   errors.ts                TempoError + ParseResult
   types.ts                 units, overflow, disambiguation
   clock.ts                 injectable now()

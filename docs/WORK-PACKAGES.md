@@ -121,22 +121,22 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 
 ## WP6 — 1.0 API freeze candidates (Phase 2)
 
-**In progress:** the Interval, custom parser, Duration decision, clock docs, and migration cookbook are complete; next is the `OffsetDateTime` decision and API-freeze audit.
+**Status: API freeze audit complete** (2026-08-15). The exact runtime export surface is locked by `tests/unit/public-api.test.ts`; the Interval, custom parser, Duration, fixed-offset, clock, and migration decisions are documented. npm publication remains an explicit release step.
 
 Only after WP1–WP2.
 
-Pick with the user if still open:
+Locked decisions:
 
 1. [x] Generic `Interval<T>` (`start`, `end`) with half-open `[start, end)` default; `DateRange.of(...)` for `LocalDate`.
 2. [x] Strict numeric LocalDate custom token **parser** (`parse(input, 'dd/MM/yyyy')`) — uses tokens from `src/format/tokens.ts`; locale-sensitive parsing remains deferred.
 3. [x] Keep `Duration` as mixed fields through 1.0. Revisit `Period` only if Temporal interop or real usage demonstrates a need.
 4. [x] Keep offset zones as `ZonedDateTime` with fixed-offset IDs; defer a distinct `OffsetDateTime` until real usage requires it.
-5. Publish `tempo-js@1.0.0` after API freeze + changelog. Publishing remains a separate, explicit user request.
+5. Publish `tempo-js@1.0.0` after API freeze + changelog. **Deferred:** publishing remains a separate, explicit user request.
 
 **Done when**
 
 - `docs/DESIGN.md` open questions are answered in writing.
-- CHANGELOG has a 1.0 section.
+- CHANGELOG has a 1.0 readiness section.
 - npm publish is a separate, explicit user request.
 
 ---
@@ -149,4 +149,4 @@ Locale-sensitive parsing, RRULE, non-Gregorian calendars, BigInt nanos, holiday 
 
 ## If you are asked to “just finish Tempo”
 
-That means: WP1 → WP2 → WP3 → WP4, then stop and report. Do not invent WP6 features unprompted.
+That means: complete the documented hardening and API-freeze work, then stop before npm publication or embedded tzdata. Those are explicit release/product decisions, not work to invent silently.

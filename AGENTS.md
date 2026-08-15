@@ -48,7 +48,7 @@ npm run lint
 npm run test:coverage
 npm run build
 npm run size
-npm run test:mutation  # Stryker on src/core/civil.ts; 89.5% score, see docs/TESTING.md
+npm run test:mutation  # Stryker on src/core/civil.ts; 90.2% score on the latest run, see docs/TESTING.md
 ```
 
 CI: `.github/workflows/ci.yml` on Node 20/22/24. Public repo = unlimited Actions minutes.
@@ -68,4 +68,4 @@ If you change civil math, DST, ISO parse, or overflow, add a test in the **same 
 
 ## Current phase
 
-Phase 0 kernel is on `main` (`tempo-js@0.1.0`). API is not frozen. Next work is Phase 1 hardening, then 1.0. Start at the top of `docs/WORK-PACKAGES.md`.
+Phase 1 hardening and the Phase 2 1.0 API-freeze candidate are on `main` (`tempo-js@0.1.0`). The API contract is audited but the package remains unpublished; npm publication is an explicit release step. Start at the top of `docs/WORK-PACKAGES.md` for any remaining work.

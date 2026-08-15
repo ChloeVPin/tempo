@@ -101,7 +101,7 @@ import { toTemporalInstant } from 'tempo-js/temporal';
 
 ## Status
 
-`0.1.x` — Phase 0 kernel is on `main`. API may still tighten before 1.0. Next work is listed in [WORK-PACKAGES.md](docs/WORK-PACKAGES.md).
+`0.1.x` — Phase 1 hardening and the 1.0 API-freeze candidate are on `main`. The package is not published yet; npm release is an explicit next step. See [WORK-PACKAGES.md](docs/WORK-PACKAGES.md) for deferred work and release boundaries.
 
 ## License
 

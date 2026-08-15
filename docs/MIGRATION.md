@@ -43,7 +43,7 @@ import { LocalDate, Instant, ZonedDateTime, LocalDateTime } from 'tempo-js';
 
 LocalDate.today().toISO()
 date.plus({ days: 1 })
-a.until(b, 'days')
+a.until(b, 'day')
 instant.toISO()
 LocalDateTime.parse('2026-06-01T10:00:00').toZonedDateTime('America/New_York')
 ```

@@ -2,7 +2,7 @@
 
 Tempo is tested as if it were a standards implementation, not a utility bag.
 
-Locked examples live in [`INVARIANTS.md`](INVARIANTS.md). Next test work is [`WORK-PACKAGES.md`](WORK-PACKAGES.md) WP1–WP3.
+Locked examples live in [`INVARIANTS.md`](INVARIANTS.md). The hardening and API-freeze test work is complete; maintain the contract in [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
 
 ## Oracles (in order)
 
@@ -25,12 +25,13 @@ Moment is not a correctness oracle for core types. The pinned compat oracle is `
 | Differential | `tests/differential` | Compare with Temporal / Luxon / date-fns; Moment only for compat |
 | Bench | `tests/bench` | Performance regressions and same-process Tempo/Moment comparisons |
 | Size | `size-limit` in CI | Bundle budgets |
+| Public API | `tests/unit/public-api.test.ts` | Exact main-barrel and subpath export surfaces |
 
 ## Required properties
 
 - `parse(toISO(x)) === x` for every core type in the supported range
 - `x.plus(d).minus(d) === x` for time-unit durations
-- `date.plus({ days: n }).until(date, 'days')` related correctly for integer `n`
+- `date.plus({ days: n }).until(date, 'day')` relates correctly for integer `n`
 - After month arithmetic, `day <= daysInMonth(year, month)`
 - Comparison is a total order per type
 - Instant identity is preserved by `instant → zoned → instant`
@@ -90,28 +91,28 @@ claim.
 
 `npm run test:mutation` runs Stryker (`stryker.config.json`) against `src/core/civil.ts`
 only, using a scoped vitest config (`vitest.mutation.config.ts`) with the civil,
-walk, property, and local-date suites. Result (2026-08): **89.5% mutation
-score** — 258 killed, 7 timeout — with **zero survivors in the math core**
+walk, property, and local-date suites. Result (2026-08): **90.2% mutation
+score** — 258 killed, 9 timeouts — with **zero survivors in the math core**
 (`isLeapYear`, `daysInMonth`, `daysFromCivil`, `civilFromDays`, `isoDayOfWeek`,
 `dayOfYear`, `quarterOf`, `isoWeekFields`, `dateFromIsoWeek` computation). The
 walk + property tests are therefore real, not tautological.
 
-Survivor classification (30 total, all non-math):
+Survivor classification from the latest run (28 testable survivors, plus 1 no-coverage):
 
-- **22 provably equivalent** — Hinnant era `>=` vs `>` at 0 (toward-zero division
-  makes them identical); `isValidDate` integer/month checks (redundant:
-  fractional inputs yield fractional epoch days rejected by `isEpochDayInRange`,
-  fractional months hit `DAYS_IN_MONTH[m] ?? 0`); `constrainDate` clamp boundary
-  no-ops; `dateFromIsoWeek` existence check where both fields always mismatch
-  together; `pad2`/`pad4` branches unreachable for their input domains.
-- **8 false survivors** — the `requireValidDate` integer-error block (lines
-  96–98). The killing test exists and asserts code + message + input (dry run:
-  45 mutants killed), but Stryker's vitest runner excludes it from these
-  mutants' per-test subsets via its coverage-attribution quirk. Verified by
-  hand: applying the `if (false)` mutant makes the suite fail (error code
-  changes `INVALID_DATE` → `OUT_OF_RANGE`).
+- **8 redundant validation survivors** — `isValidDate` integer/month checks are
+  already implied by fractional epoch-day rejection and `DAYS_IN_MONTH[m] ?? 0`.
+- **8 attribution survivors** — the `requireValidDate` integer-error block
+  (lines 95–97) has a direct test asserting code, message, and input, but the
+  Vitest runner's per-test coverage attribution excludes that test from these
+  mutants. Hand-applying the `if (false)` mutant makes the civil suite fail.
+- **4 constrain boundary survivors** — changing `<`/`>` to inclusive comparisons
+  is a no-op when the value is already at the clamp boundary.
+- **3 ISO-week existence survivors** — the alternate checks are equivalent for
+  the constructed candidate.
+- **5 formatter/domain survivors** — pad and year-format branches are unreachable
+  or equivalent for their supported input domains.
 - **1 no-coverage** — the `'-'` literal in `pad2`, reachable only for negative
-  input, which the function's callers never produce.
+  input, which callers never produce.
 
 30 type-invalid mutants are `CompileError` and excluded from the score by
 Stryker. To see the per-mutant report: `npx stryker run --reporters json` →

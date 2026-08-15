@@ -9,7 +9,7 @@
 - **WP4** runtime matrix: bun / deno / Playwright smoke jobs (`fail-fast: false`).
 - **WP5** module graph: `format` / `toLocaleString` / `relativeTime` removed from the main barrel (use `tempo-js/format`, `tempo-js/intl`, `tempo-js/relative`); main barrel 10.4 → 8.9 kB min+gzip; size-limit now gates gzip at 10 kB / 6 kB.
 - Differential suites vs `luxon@3.7.2` (8 cases) and `date-fns@4.4.0` (7 cases) for non-ambiguous calendar, instant, weekday, and zoned cases.
-- Mutation testing on `src/core/civil.ts` via Stryker (`npm run test:mutation`): **89.5% score**, zero survivors in the civil math core; `dayOfYear`/`quarter`/ISO-week error contracts now asserted. Dev deps: `@stryker-mutator/core`, `@stryker-mutator/vitest-runner`, `@stryker-mutator/typescript-checker` (all pinned 10.0.0).
+- Mutation testing on `src/core/civil.ts` via Stryker (`npm run test:mutation`): **90.2% score on the latest run**, zero survivors in the civil math core; `dayOfYear`/`quarter`/ISO-week error contracts now asserted. Dev deps: `@stryker-mutator/core`, `@stryker-mutator/vitest-runner`, `@stryker-mutator/typescript-checker` (all pinned 10.0.0).
 - Moment compat differential suite: 6 deterministic cases against pinned `moment@2.30.1` and `moment-timezone@0.5.48`; intentionally excludes Moment-only permissive parsing and ambiguous DST behavior.
 - Phase 2 `Interval<T>`: immutable half-open `[start, end)` intervals with containment, overlap, abutment, intersection, union, ordering validation, and a `DateRange.of(...)` LocalDate factory.
 - Strict numeric custom-token parsing for `LocalDate.parse(input, pattern)`: `y`/`yyyy`/`uuuu`, `M`/`MM`, `d`/`dd`, and quoted literals; unsupported ambiguous or locale-sensitive tokens reject explicitly.
@@ -17,7 +17,12 @@
 - Added a 20-call Moment migration cookbook covering typed replacements, DST/overflow hazards, strict parsing, and the compat exit path.
 - Phase 2 decision: fixed offsets remain `ZonedDateTime` views through 1.0; no duplicate `OffsetDateTime` type without a demonstrated invariant.
 - Added a same-process Tempo-vs-pinned-Moment benchmark baseline: Tempo measured 6.4–10.7× faster across representative core parse, day arithmetic, and formatting operations on Node 22.
-- Added a public export contract test protecting the core+timezone main barrel and documented format/intl/relative/compat/temporal subpaths.
+- Added a public export contract test protecting the exact core+timezone main barrel and documented format/intl/relative/tz/compat/temporal subpath surfaces.
+- Completed the 1.0 API-freeze audit: singular unit names, immutable value types, strict parsing, overflow/DST policies, fixed-offset `ZonedDateTime` views, and the mixed `Duration` contract are documented and executable. npm publication and an optional embedded tzdata package remain explicit, deferred release decisions.
+
+## 1.0.0 readiness (unpublished)
+
+The API-freeze candidate is documented and contract-tested. This is not an npm release; the package remains `0.1.0` until an explicit publish decision.
 
 ## 0.1.0 — 2026-08-14
 
