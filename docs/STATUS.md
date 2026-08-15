@@ -36,7 +36,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `src/format/compiler.ts` | n/a | — | Not a separate file |
 | `src/intl/*` | done | `intl.test.ts` | |
 | `src/relative/relative-time.ts` | partial | `relative.test.ts` | One case |
-| `src/compat/moment.ts` | partial | `compat-moment.test.ts` | Common subset only |
+| `src/compat/moment.ts` | done | `compat-moment.test.ts`, Moment differential | Common subset only; oracle-tested against pinned Moment packages |
 | `src/compat/format-map.ts` | done | via compat | Moment → Tempo tokens |
 | `src/temporal/interop.ts` | done | `temporal-interop.test.ts` | Fake-`globalThis.Temporal`; no longer excluded |
 
@@ -54,6 +54,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `tests/differential/temporal.test.ts` | done | Skip-safe; passes 6/6 vs pinned polyfill in CI |
 | `tests/differential/luxon.test.ts` | done | 8 non-ambiguous cases vs `luxon@3.7.2` |
 | `tests/differential/date-fns.test.ts` | done | 7 non-ambiguous cases vs `date-fns@4.4.0` |
+| `tests/differential/moment.test.ts` | done | 6 deterministic compat cases vs `moment@2.30.1` + `moment-timezone@0.5.48` |
 | `tests/unit/compare.test.ts` | done | `isBetween` inclusivity matrix |
 | `tests/unit/temporal-interop.test.ts` | done | Fake Temporal round-trips + error paths |
 | `tests/runtime/bun-smoke.ts` | done | Bun runs TS source; verified locally (bun 1.3.14) |

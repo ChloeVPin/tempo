@@ -12,7 +12,7 @@ Locked examples live in [`INVARIANTS.md`](INVARIANTS.md). Next test work is [`WO
 4. Luxon and date-fns for non-ambiguous secondary checks
 5. Moment.js **only** for `tempo-js/compat/moment`
 
-Moment is not a correctness oracle for core types.
+Moment is not a correctness oracle for core types. The pinned compat oracle is `moment@2.30.1`; IANA-zone cases use `moment-timezone@0.5.48`.
 
 ## Layers
 
@@ -22,7 +22,7 @@ Moment is not a correctness oracle for core types.
 | Property | `tests/property` | Invariants via fast-check |
 | Golden | `tests/golden` | Timezone offset tables, format snapshots |
 | Fuzz | `tests/fuzz` | Parser / formatter crash resistance |
-| Differential | `tests/differential` | Compare with Temporal / Luxon / date-fns |
+| Differential | `tests/differential` | Compare with Temporal / Luxon / date-fns; Moment only for compat |
 | Bench | `tests/bench` | Performance regressions |
 | Size | `size-limit` in CI | Bundle budgets |
 
