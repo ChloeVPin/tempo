@@ -2,7 +2,7 @@
 
 Tempo is tested as if it were a standards implementation, not a utility bag.
 
-Locked examples live in [`INVARIANTS.md`](INVARIANTS.md). The hardening and API-freeze test work is complete; maintain the contract in [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
+Locked examples live in [`INVARIANTS.md`](https://github.com/ChloeVPin/tempo/blob/main/docs/INVARIANTS.md). The hardening and API-freeze test work is complete; maintain the contract in [`WORK-PACKAGES.md`](https://github.com/ChloeVPin/tempo/blob/main/docs/WORK-PACKAGES.md).
 
 ## Oracles (in order)
 

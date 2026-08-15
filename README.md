@@ -87,17 +87,18 @@ import { toTemporalInstant } from 'tempo-js/temporal';
 
 ## Documentation
 
-- [Docs index](docs/README.md)
-- **Taking over this repo:** [AGENTS.md](AGENTS.md) → [handoff](docs/HANDOFF.md) → [work packages](docs/WORK-PACKAGES.md)
-- [Design](docs/DESIGN.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [Invariants](docs/INVARIANTS.md)
-- [Implementation status](docs/STATUS.md)
-- [Roadmap](docs/ROADMAP.md)
+- [Docs index](https://github.com/ChloeVPin/tempo/tree/main/docs)
+- **Taking over this repo:** [AGENTS.md](https://github.com/ChloeVPin/tempo/blob/main/AGENTS.md) → [handoff](https://github.com/ChloeVPin/tempo/blob/main/docs/HANDOFF.md) → [work packages](https://github.com/ChloeVPin/tempo/blob/main/docs/WORK-PACKAGES.md)
+- [Design](https://github.com/ChloeVPin/tempo/blob/main/docs/DESIGN.md)
+- [Architecture](https://github.com/ChloeVPin/tempo/blob/main/docs/ARCHITECTURE.md)
+- [Invariants](https://github.com/ChloeVPin/tempo/blob/main/docs/INVARIANTS.md)
+- [Implementation status](https://github.com/ChloeVPin/tempo/blob/main/docs/STATUS.md)
+- [Roadmap](https://github.com/ChloeVPin/tempo/blob/main/docs/ROADMAP.md)
 - [Moment migration](docs/MIGRATION.md)
 - [Testing strategy](docs/TESTING.md)
 - [API reference](docs/API.md)
-- [Research notes](docs/RESEARCH.md) (background only)
+- [1.0.0 release announcement](docs/RELEASE-1.0.0.md)
+- [Research notes](https://github.com/ChloeVPin/tempo/blob/main/docs/RESEARCH.md) (background only)
 
 ## Status
 

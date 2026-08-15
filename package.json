@@ -10,9 +10,13 @@
   },
   "files": [
     "dist",
-    "docs",
     "README.md",
-    "LICENSE"
+    "CHANGELOG.md",
+    "LICENSE",
+    "docs/API.md",
+    "docs/MIGRATION.md",
+    "docs/RELEASE-1.0.0.md",
+    "docs/TESTING.md"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
