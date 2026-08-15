@@ -2,7 +2,7 @@
 
 This document is the living plan for Tempo. It records what ships in each phase, what is deferred, and why. Update it whenever a milestone lands or a decision changes.
 
-Last updated: 2026-08-15 (Phase 2 Interval slice)
+Last updated: 2026-08-15 (Phase 2 readiness slices)
 
 Agents: do not plan from this file alone. Use [`HANDOFF.md`](HANDOFF.md) + [`WORK-PACKAGES.md`](WORK-PACKAGES.md).
 
@@ -108,6 +108,8 @@ These stay out of the default bundle.
 | 2026-08-14 | Token style is `yyyy-MM-dd`, not Moment `YYYY-MM-DD`. | Avoids week-year footgun. Compat layer maps Moment tokens. |
 | 2026-08-15 | `format` / `toLocaleString` / `relativeTime` leave the main barrel (WP5). | Main barrel is core + tz only: 10.4 → 8.9 kB min+gzip (7.8 kB brotli). Unpublished 0.x; subpath entries already exist. |
 | 2026-08-15 | Keep one mixed `Duration` through 1.0; do not add `Period` yet. | Existing calendar/time fields already match the current Temporal interop shape; a split would add API and migration cost without a demonstrated need. |
+| 2026-08-15 | Keep fixed offsets as `ZonedDateTime`; do not add `OffsetDateTime` before 1.0. | Fixed-offset IDs already preserve the instant + offset view without a second type; add a distinct type only if real usage requires different invariants. |
+| 2026-08-15 | Add a non-CI Tempo-vs-Moment benchmark baseline. | Same-process Node 22 measurements show Tempo 6.4–10.7× faster on representative core parse/arithmetic/format operations; benchmark is for regression evidence, not a universal claim. |
 
 ## Size dashboard (WP5, 2026-08-15)
 

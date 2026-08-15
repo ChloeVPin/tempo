@@ -23,7 +23,7 @@ Moment is not a correctness oracle for core types. The pinned compat oracle is `
 | Golden | `tests/golden` | Timezone offset tables, format snapshots |
 | Fuzz | `tests/fuzz` | Parser / formatter crash resistance |
 | Differential | `tests/differential` | Compare with Temporal / Luxon / date-fns; Moment only for compat |
-| Bench | `tests/bench` | Performance regressions |
+| Bench | `tests/bench` | Performance regressions and same-process Tempo/Moment comparisons |
 | Size | `size-limit` in CI | Bundle budgets |
 
 ## Required properties
@@ -74,6 +74,17 @@ Public GitHub Actions is the default CI so the matrix can grow without a minutes
 | Overall | ≥ 95% lines |
 
 Coverage is necessary and not sufficient.
+
+## Performance evidence
+
+Run `npm run bench` for reproducible local microbenchmarks. The pinned Moment
+comparison (`tests/bench/moment.bench.ts`) is deliberately same-process and
+non-CI: it measures representative, non-zoned operations using
+`moment@2.30.1`, not every workload or every runtime. On Node 22 during the
+2026-08-15 run, Tempo measured 9.6× faster for LocalDate parsing, 6.4× for
+calendar-day addition, 10.7× for Instant parsing, and 7.3× for date formatting.
+Treat these as a baseline for regression detection, not a universal marketing
+claim.
 
 ## Mutation testing
 

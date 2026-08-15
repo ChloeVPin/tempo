@@ -15,6 +15,8 @@
 - Strict numeric custom-token parsing for `LocalDate.parse(input, pattern)`: `y`/`yyyy`/`uuuu`, `M`/`MM`, `d`/`dd`, and quoted literals; unsupported ambiguous or locale-sensitive tokens reject explicitly.
 - Phase 2 decision: keep one mixed `Duration` through 1.0; defer a separate `Period` until usage or Temporal interop proves it necessary. Clock injection is documented as public API.
 - Added a 20-call Moment migration cookbook covering typed replacements, DST/overflow hazards, strict parsing, and the compat exit path.
+- Phase 2 decision: fixed offsets remain `ZonedDateTime` views through 1.0; no duplicate `OffsetDateTime` type without a demonstrated invariant.
+- Added a same-process Tempo-vs-pinned-Moment benchmark baseline: Tempo measured 6.4–10.7× faster across representative core parse, day arithmetic, and formatting operations on Node 22.
 
 ## 0.1.0 — 2026-08-14
 

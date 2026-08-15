@@ -121,7 +121,7 @@ After finishing a package: tick it here, tick the matching line in `docs/ROADMAP
 
 ## WP6 — 1.0 API freeze candidates (Phase 2)
 
-**In progress:** the generic `Interval<T>` and strict numeric LocalDate custom-token parser slices are done locally; next candidate is the Period/Duration decision.
+**In progress:** the Interval, custom parser, Duration decision, clock docs, and migration cookbook are complete; next is the `OffsetDateTime` decision and API-freeze audit.
 
 Only after WP1–WP2.
 
@@ -130,7 +130,7 @@ Pick with the user if still open:
 1. [x] Generic `Interval<T>` (`start`, `end`) with half-open `[start, end)` default; `DateRange.of(...)` for `LocalDate`.
 2. [x] Strict numeric LocalDate custom token **parser** (`parse(input, 'dd/MM/yyyy')`) — uses tokens from `src/format/tokens.ts`; locale-sensitive parsing remains deferred.
 3. [x] Keep `Duration` as mixed fields through 1.0. Revisit `Period` only if Temporal interop or real usage demonstrates a need.
-4. Keep offset zones as `ZonedDateTime` (current) unless users need a distinct `OffsetDateTime`. This remains open.
+4. [x] Keep offset zones as `ZonedDateTime` with fixed-offset IDs; defer a distinct `OffsetDateTime` until real usage requires it.
 5. Publish `tempo-js@1.0.0` after API freeze + changelog. Publishing remains a separate, explicit user request.
 
 **Done when**

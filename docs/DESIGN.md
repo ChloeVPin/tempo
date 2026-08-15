@@ -256,12 +256,12 @@ Performance targets are relative: beat Moment on every core microbench; stay wit
 9. **No invalid objects.** Fail at the call that received bad input.
 10. **npm name `tempo-js`.** The product is Tempo; `tempo` is taken on the registry.
 11. **One mixed `Duration` through 1.0.** Splitting calendar `Period` from time `Duration` is deferred until usage or Temporal interop proves it necessary.
+12. **Fixed offsets remain `ZonedDateTime` views through 1.0.** A separate `OffsetDateTime` is deferred until a distinct invariant is demonstrated.
 
 ## 15. Open questions
 
-None blocking Phase 0. Deferred:
+None blocking the current Phase 2 slice. Deferred:
 
-- Whether `OffsetDateTime` stays first-class or remains a `ZonedDateTime` with a fixed-offset zone.
 - Exact token set for the custom parser (Java vs a smaller subset).
 
 ## 16. PR plan

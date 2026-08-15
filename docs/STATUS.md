@@ -1,6 +1,6 @@
 # Implementation status
 
-Last updated: 2026-08-15 (Phase 2 Interval slice). Update a row when you land or delete the file.
+Last updated: 2026-08-15 (Phase 2 readiness slices). Update a row when you land or delete the file.
 
 Legend: **done** = implemented + at least one test · **partial** = exists, thin tests or known gaps · **missing** = not in tree · **n/a** = decided against for v1
 
@@ -52,7 +52,8 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `tests/unit/civil-walk.test.ts` | done | 73,414-day walk 1900-01-01..2100-12-31 |
 | `tests/helpers/intl-history.ts` | done | Direct-Intl probe; decides ICU-history skips |
 | `tests/fuzz/parse.fuzz.test.ts` | done | 4 suites; TempoError-only, <50 ms/input |
-| `tests/bench/core.bench.ts` | done | Not in CI |
+| `tests/bench/core.bench.ts` | done | Core microbenchmarks; not in CI |
+| `tests/bench/moment.bench.ts` | done | Same-process Tempo vs pinned `moment@2.30.1`; not in CI |
 | `tests/differential/temporal.test.ts` | done | Skip-safe; passes 6/6 vs pinned polyfill in CI |
 | `tests/differential/luxon.test.ts` | done | 8 non-ambiguous cases vs `luxon@3.7.2` |
 | `tests/differential/date-fns.test.ts` | done | 7 non-ambiguous cases vs `date-fns@4.4.0` |
