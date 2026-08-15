@@ -17,6 +17,7 @@
 - Added a 20-call Moment migration cookbook covering typed replacements, DST/overflow hazards, strict parsing, and the compat exit path.
 - Phase 2 decision: fixed offsets remain `ZonedDateTime` views through 1.0; no duplicate `OffsetDateTime` type without a demonstrated invariant.
 - Added a same-process Tempo-vs-pinned-Moment benchmark baseline: Tempo measured 6.4–10.7× faster across representative core parse, day arithmetic, and formatting operations on Node 22.
+- Added a public export contract test protecting the core+timezone main barrel and documented format/intl/relative/compat/temporal subpaths.
 
 ## 0.1.0 — 2026-08-14
 

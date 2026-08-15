@@ -60,6 +60,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `tests/differential/moment.test.ts` | done | 6 deterministic compat cases vs `moment@2.30.1` + `moment-timezone@0.5.48` |
 | `tests/unit/interval.test.ts` | done | Half-open containment, invalid order, overlap/abut/intersection/union, LocalDate range |
 | `tests/unit/custom-parse.test.ts` | done | Strict numeric custom-token parsing and rejection paths |
+| `tests/unit/public-api.test.ts` | done | Main-barrel and documented subpath export contract |
 | `tests/unit/compare.test.ts` | done | `isBetween` inclusivity matrix |
 | `tests/unit/temporal-interop.test.ts` | done | Fake Temporal round-trips + error paths |
 | `tests/runtime/bun-smoke.ts` | done | Bun runs TS source; verified locally (bun 1.3.14) |
