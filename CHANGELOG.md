@@ -22,7 +22,7 @@
 
 ## 1.0.0 readiness (unpublished)
 
-The API-freeze candidate is documented and contract-tested. This is not an npm release; the package remains `0.1.0` until an explicit publish decision.
+The API-freeze candidate is documented and contract-tested. Package metadata is now `1.0.0`, but this is not an npm release; publication remains an explicit release decision.
 
 ## 0.1.0 — 2026-08-14
 

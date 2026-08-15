@@ -5,7 +5,7 @@
 **Repo:** https://github.com/ChloeVPin/tempo  
 **Branch:** `main`  
 **HEAD at time of writing:** current API-freeze audit commit (trust `git log`)
-**Package:** `tempo-js@0.1.0` (not published to npm yet)  
+**Package:** `tempo-js@1.0.0` (metadata prepared; not published to npm yet)
 **CI:** green through the preceding public runs; verify the latest push before release
 
 If HEAD has moved, trust `git log` and the tests over any SHA in this file. Trust this file over older prose in `docs/RESEARCH.md`.
@@ -35,7 +35,7 @@ Latest local verification:
 - 23 test files passed, 1 Temporal differential file skipped; **155 passed / 6 skipped**
 - `tsc --noEmit` clean
 - ESLint clean
-- Coverage **81.95% lines / 73.2% functions / 83.05% branches**
+- Coverage **81.28–81.95% lines / ~73.2% functions / 82.69–83.05% branches** across local runs
 - Main entry **9.85 kB gzip** (10 kB limit); format entry **1.55 kB gzip** (6 kB limit)
 - Stryker on `src/core/civil.ts`: **~89–91% across local runs** (256–263 killed, 5–8 timeouts), zero meaningful survivors in the civil math core; see `docs/TESTING.md`
 

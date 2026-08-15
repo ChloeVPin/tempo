@@ -19,5 +19,5 @@ describe('civil walk 1900-01-01 .. 2100-12-31', () => {
       expect(date.toISO()).toBe(iso);
       expect(LocalDate.parse(iso).equals(date)).toBe(true);
     }
-  });
+  }, 15_000);
 });

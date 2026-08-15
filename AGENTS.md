@@ -68,4 +68,4 @@ If you change civil math, DST, ISO parse, or overflow, add a test in the **same 
 
 ## Current phase
 
-Phase 1 hardening and the Phase 2 1.0 API-freeze candidate are on `main` (`tempo-js@0.1.0`). The API contract is audited but the package remains unpublished; npm publication is an explicit release step. Start at the top of `docs/WORK-PACKAGES.md` for any remaining work.
+Phase 1 hardening and the Phase 2 1.0 API-freeze candidate are on `main` (`tempo-js@1.0.0` metadata prepared, not published). The API contract is audited; npm publication is an explicit release step. Start at the top of `docs/WORK-PACKAGES.md` for any remaining work.

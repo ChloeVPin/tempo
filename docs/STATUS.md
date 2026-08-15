@@ -81,7 +81,7 @@ Legend: **done** = implemented + at least one test · **partial** = exists, thin
 | `eslint.config.js` | done | Runtime-smoke globals for `tests/runtime/**` |
 | `.github/workflows/ci.yml` | done | Node matrix + coverage + build/size + temporal-diff + bun/deno/playwright smokes |
 | size-limit on `dist/index.js` and `dist/format/index.js` | done |
-| npm publish | deferred | Explicit release step after credentials, package name, and version approval |
+| npm publish | deferred | Package metadata is `1.0.0`; publication remains an explicit release step after credentials and approval |
 
 ## Docs
 
