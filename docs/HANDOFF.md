@@ -5,7 +5,7 @@
 **Repo:** https://github.com/ChloeVPin/tempo  
 **Branch:** `main`  
 **HEAD at time of writing:** current API-freeze audit commit (trust `git log`)
-**Package:** `tempo-js@1.0.0` (metadata prepared; not published to npm yet)
+**Package:** `@chloevpin/tempo@1.0.0` (metadata prepared; not published to npm yet)
 **CI:** green through the preceding public runs; verify the latest push before release
 
 If HEAD has moved, trust `git log` and the tests over any SHA in this file. Trust this file over older prose in `docs/RESEARCH.md`.
@@ -21,7 +21,7 @@ Ship a Temporal-aligned, immutable, TypeScript-first date/time kernel that can r
 Phase 1 hardening and the 1.0 API-freeze candidate are implemented and pushed. You can:
 
 ```ts
-import { LocalDate, Instant, ZonedDateTime, Duration } from 'tempo-js';
+import { LocalDate, Instant, ZonedDateTime, Duration } from '@chloevpin/tempo';
 
 LocalDate.parse('2026-06-01').plus({ days: 1 }).toISO(); // '2026-06-02'
 LocalDate.of(2026, 1, 31).plus({ months: 1 }).toISO();   // '2026-02-28'
@@ -67,18 +67,18 @@ The following already exist. Improve them; do not replace them from scratch.
 One npm package, subpath exports, ESM + CJS + d.ts via `tsup`.
 
 ```text
-tempo-js                 src/index.ts
-tempo-js/format          src/format/index.ts
-tempo-js/tz              src/tz/index.ts
-tempo-js/intl            src/intl/index.ts
-tempo-js/relative        src/relative/index.ts
-tempo-js/compat/moment   src/compat/moment/index.ts
-tempo-js/temporal        src/temporal/index.ts
+@chloevpin/tempo                 src/index.ts
+@chloevpin/tempo/format          src/format/index.ts
+@chloevpin/tempo/tz              src/tz/index.ts
+@chloevpin/tempo/intl            src/intl/index.ts
+@chloevpin/tempo/relative        src/relative/index.ts
+@chloevpin/tempo/compat/moment   src/compat/moment/index.ts
+@chloevpin/tempo/temporal        src/temporal/index.ts
 ```
 
 `"sideEffects": false`. Zero runtime dependencies.
 
-**Barrel (WP5, 2026-08-15):** `format`, `toLocaleString`, and `relativeTime` are **not** re-exported from `src/index.ts` — they live on `tempo-js/format`, `tempo-js/intl`, `tempo-js/relative`. Main barrel is core + tz only (8.9 kB min+gzip). Do not add `compat` or `temporal` to the main barrel, and do not re-add format/intl/relative without a size review.
+**Barrel (WP5, 2026-08-15):** `format`, `toLocaleString`, and `relativeTime` are **not** re-exported from `src/index.ts` — they live on `@chloevpin/tempo/format`, `@chloevpin/tempo/intl`, `@chloevpin/tempo/relative`. Main barrel is core + tz only (8.9 kB min+gzip). Do not add `compat` or `temporal` to the main barrel, and do not re-add format/intl/relative without a size review.
 
 ### 4.2 Factory registration (do not “clean this up” casually)
 
@@ -89,7 +89,7 @@ tempo-js/temporal        src/temporal/index.ts
 
 `src/tz/zoned-datetime.ts` calls both at module load.
 
-If you import `Instant` **without** ever loading `ZonedDateTime`, `instant.toZonedDateTime()` throws `UNKNOWN_TIMEZONE` / “module is not loaded”. The main barrel imports `ZonedDateTime`, so the public `tempo-js` entry is fine.
+If you import `Instant` **without** ever loading `ZonedDateTime`, `instant.toZonedDateTime()` throws `UNKNOWN_TIMEZONE` / “module is not loaded”. The main barrel imports `ZonedDateTime`, so the public `@chloevpin/tempo` entry is fine.
 
 Type-only `import type { ZonedDateTime }` in instant/local-datetime is intentional.
 
@@ -169,7 +169,7 @@ Treat these as **documented incomplete work**, not surprises.
 12. **Parser fuzz exists** (`tests/fuzz/parse.fuzz.test.ts`) but is light (200 strings, 50 ms bound).
 13. **Phase 1 runtime jobs are present** for Playwright, Bun, and Deno; CI remains the authority for host-specific results.
 14. **`scripts/` is empty.** Debug scripts are not part of the product.
-15. **Not published to npm.** Publication of `tempo-js@1.0.0` is the remaining explicit release step; do not run it without user approval and credentials.
+15. **Not published to npm.** Publication of `@chloevpin/tempo@1.0.0` is the remaining explicit release step; do not run it without user approval and credentials.
 
 ## 7. Doc drift that already bit us
 
@@ -217,7 +217,7 @@ The hardening and API-freeze work is complete. For ordinary maintenance, start w
 
 - Product: **Tempo**
 - GitHub repo: `ChloeVPin/tempo` (public, on purpose, for free CI)
-- npm: **`tempo-js`** — `tempo` and `tempojs` are taken
+- npm: **`@chloevpin/tempo`** — scoped to avoid npm's unscoped-name similarity restrictions
 - License: MIT
 - Author in package.json: Chloe Valesquez
 - Node: `>=18`; CI matrix 20, 22, 24

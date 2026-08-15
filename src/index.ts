@@ -34,5 +34,5 @@ export { formatOffset, parseOffset } from './tz/offset.js';
 export { intlTimeZoneProvider } from './tz/intl-provider.js';
 
 // format / toLocaleString / relativeTime intentionally live on subpath
-// entries (`tempo-js/format`, `tempo-js/intl`, `tempo-js/relative`) so the
+// entries (`@chloevpin/tempo/format`, `@chloevpin/tempo/intl`, `@chloevpin/tempo/relative`) so the
 // main barrel stays core + zoned only. See docs/WORK-PACKAGES.md WP5.

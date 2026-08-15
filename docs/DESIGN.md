@@ -143,7 +143,7 @@ import {
   LocalDateTime,
   ZonedDateTime,
   Duration,
-} from 'tempo-js';
+} from '@chloevpin/tempo';
 
 const date = LocalDate.parse('2026-06-01');
 const next = date.plus({ days: 1 });
@@ -171,13 +171,13 @@ date.with({ year: 2027 })
 
 | Import | Contents |
 |---|---|
-| `tempo-js` | Core types, ISO parse/format, compare, arithmetic |
-| `tempo-js/format` | Token formatter |
-| `tempo-js/tz` | IANA / Intl timezone provider, `ZonedDateTime` extras |
-| `tempo-js/intl` | Locale formatting helpers |
-| `tempo-js/relative` | Relative time |
-| `tempo-js/compat/moment` | Immutable Moment-shaped adapter |
-| `tempo-js/temporal` | Temporal conversions |
+| `@chloevpin/tempo` | Core types, ISO parse/format, compare, arithmetic |
+| `@chloevpin/tempo/format` | Token formatter |
+| `@chloevpin/tempo/tz` | IANA / Intl timezone provider, `ZonedDateTime` extras |
+| `@chloevpin/tempo/intl` | Locale formatting helpers |
+| `@chloevpin/tempo/relative` | Relative time |
+| `@chloevpin/tempo/compat/moment` | Immutable Moment-shaped adapter |
+| `@chloevpin/tempo/temporal` | Temporal conversions |
 
 `sideEffects: false`. No plugin registration.
 
@@ -207,11 +207,11 @@ Messages are English and stable enough for tests. Codes are the contract.
 
 - `toJSDate()` / `Instant.fromJSDate()` — instant only. `LocalDate` does not convert to `Date` without a zone.
 - `toJSON()` returns the ISO string for that type.
-- Temporal conversions are feature-detected and live in `tempo-js/temporal`.
+- Temporal conversions are feature-detected and live in `@chloevpin/tempo/temporal`.
 
 ## 11. Moment adapter
 
-`tempo-js/compat/moment` covers the common subset:
+`@chloevpin/tempo/compat/moment` covers the common subset:
 
 `format`, `add`, `subtract`, `startOf`, `endOf`, `diff`, `isBefore`, `isAfter`, `isSame`, `isValid`, `toDate`, `toISOString`, `unix`, `utc`, `utcOffset`, `fromNow`, `tz`, `clone`
 
@@ -254,7 +254,7 @@ Performance targets are relative: beat Moment on every core microbench; stay wit
 7. **Single package, subpath exports.** Split to a monorepo only if publish needs force it.
 8. **Millisecond Instant.** Good enough for v1, no BigInt tax.
 9. **No invalid objects.** Fail at the call that received bad input.
-10. **npm name `tempo-js`.** The product is Tempo; `tempo` is taken on the registry.
+10. **npm name `@chloevpin/tempo`.** The product is Tempo; the owner scope avoids npm's unscoped-name similarity restrictions.
 11. **One mixed `Duration` through 1.0.** Splitting calendar `Period` from time `Duration` is deferred until usage or Temporal interop proves it necessary.
 12. **Fixed offsets remain `ZonedDateTime` views through 1.0.** A separate `OffsetDateTime` is deferred until a distinct invariant is demonstrated.
 

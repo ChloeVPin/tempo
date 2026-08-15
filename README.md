@@ -14,7 +14,7 @@
 Tempo is a clean-break replacement for Moment.js. It does not clone Moment’s mutable, monolithic API. It gives you explicit types, strict parsing, tree-shakable modules, and optional Moment compatibility if you are migrating.
 
 ```ts
-import { Instant, Interval, LocalDate, ZonedDateTime } from 'tempo-js';
+import { Instant, Interval, LocalDate, ZonedDateTime } from '@chloevpin/tempo';
 
 const date = LocalDate.parse('2026-06-01').plus({ days: 1 });
 date.toISO(); // '2026-06-02'
@@ -46,10 +46,10 @@ Tempo’s contract:
 ## Install
 
 ```sh
-npm install tempo-js
+npm install @chloevpin/tempo
 ```
 
-The product is called **Tempo**. The npm name is `tempo-js` because `tempo` is already taken.
+The product is called **Tempo**. The package uses the `@chloevpin` npm scope to avoid npm's unscoped-name similarity restrictions.
 
 ## Quick start
 
@@ -60,7 +60,7 @@ import {
   Instant,
   Duration,
   ZonedDateTime,
-} from 'tempo-js';
+} from '@chloevpin/tempo';
 
 LocalDate.of(2026, 6, 1).plus({ months: 1 }).toISO(); // 2026-07-01
 LocalDate.of(2026, 1, 31).plus({ months: 1 }).toISO(); // 2026-02-28 (constrain)
@@ -85,11 +85,11 @@ LocalDate.tryParse('2026-06-01'); // { ok: true, value }
 ## Packages / entry points
 
 ```ts
-import { LocalDate } from 'tempo-js';
-import { format } from 'tempo-js/format';
-import { relativeTime } from 'tempo-js/relative';
-import { moment } from 'tempo-js/compat/moment';
-import { toTemporalInstant } from 'tempo-js/temporal';
+import { LocalDate } from '@chloevpin/tempo';
+import { format } from '@chloevpin/tempo/format';
+import { relativeTime } from '@chloevpin/tempo/relative';
+import { moment } from '@chloevpin/tempo/compat/moment';
+import { toTemporalInstant } from '@chloevpin/tempo/temporal';
 ```
 
 ## Documentation

@@ -10,7 +10,7 @@ Locked examples live in [`INVARIANTS.md`](https://github.com/ChloeVPin/tempo/blo
 2. IANA / host `Intl` timezone data
 3. CLDR / `Intl` for locale output
 4. Luxon and date-fns for non-ambiguous secondary checks
-5. Moment.js **only** for `tempo-js/compat/moment`
+5. Moment.js **only** for `@chloevpin/tempo/compat/moment`
 
 Moment is not a correctness oracle for core types. The pinned compat oracle is `moment@2.30.1`; IANA-zone cases use `moment-timezone@0.5.48`.
 

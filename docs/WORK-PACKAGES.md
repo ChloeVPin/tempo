@@ -131,7 +131,7 @@ Locked decisions:
 2. [x] Strict numeric LocalDate custom token **parser** (`parse(input, 'dd/MM/yyyy')`) — uses tokens from `src/format/tokens.ts`; locale-sensitive parsing remains deferred.
 3. [x] Keep `Duration` as mixed fields through 1.0. Revisit `Period` only if Temporal interop or real usage demonstrates a need.
 4. [x] Keep offset zones as `ZonedDateTime` with fixed-offset IDs; defer a distinct `OffsetDateTime` until real usage requires it.
-5. Publish `tempo-js@1.0.0` after API freeze + changelog. **Deferred:** publishing remains a separate, explicit user request.
+5. Publish `@chloevpin/tempo@1.0.0` after API freeze + changelog. **Deferred:** publishing remains a separate, explicit user request.
 
 **Done when**
 

@@ -1,6 +1,6 @@
 # Migrating from Moment.js
 
-Tempo is a clean break. The core API is Temporal-shaped, immutable, and strict. If you need a stepping stone, use `tempo-js/compat/moment` for the common 20 methods, then delete it.
+Tempo is a clean break. The core API is Temporal-shaped, immutable, and strict. If you need a stepping stone, use `@chloevpin/tempo/compat/moment` for the common 20 methods, then delete it.
 
 ## What will not be the same
 
@@ -39,7 +39,7 @@ moment.tz('2026-06-01 10:00', 'America/New_York')
 ```
 
 ```ts
-import { LocalDate, Instant, ZonedDateTime, LocalDateTime } from 'tempo-js';
+import { LocalDate, Instant, ZonedDateTime, LocalDateTime } from '@chloevpin/tempo';
 
 LocalDate.today().toISO()
 date.plus({ days: 1 })
@@ -51,7 +51,7 @@ LocalDateTime.parse('2026-06-01T10:00:00').toZonedDateTime('America/New_York')
 ## Compat adapter
 
 ```ts
-import { moment } from 'tempo-js/compat/moment';
+import { moment } from '@chloevpin/tempo/compat/moment';
 
 const m = moment('2026-06-01T10:00:00Z');
 m.add(1, 'day').format('YYYY-MM-DD'); // new object, original unchanged
@@ -64,7 +64,7 @@ Not supported on purpose: global locale mutation, plugin `moment.fn` hooks, perm
 ## Suggested stages
 
 1. Inventory `moment` / `moment-timezone` imports and mutable usage.
-2. Swap leaf files to `tempo-js/compat/moment`.
+2. Swap leaf files to `@chloevpin/tempo/compat/moment`.
 3. Replace `format` / `add` / `diff` / `toISOString` with core types.
 4. Replace `moment.tz` with `ZonedDateTime`.
 5. Delete the adapter.
@@ -85,7 +85,7 @@ The adapter is a migration bridge, not the destination. Prefer the typed core on
 | `moment.utc()` | `ZonedDateTime.now('UTC')` | For a timeline value, use `Instant.now()`. |
 | `moment(input)` | `Instant.parse(input)` / `LocalDate.parse(input)` | Core parsing is strict ISO; no `Date.parse` fallback. |
 | `moment.tz(input, zone)` | `LocalDateTime.parse(input).toZonedDateTime(zone)` | Supply DST disambiguation when local time may be ambiguous. |
-| `m.format('YYYY-MM-DD')` | `format(date, 'yyyy-MM-dd')` | Import `format` from `tempo-js/format`. |
+| `m.format('YYYY-MM-DD')` | `format(date, 'yyyy-MM-dd')` | Import `format` from `@chloevpin/tempo/format`. |
 | `m.add(1, 'day')` | `value.plus({ days: 1 })` | Returns a new immutable value. |
 | `m.subtract(2, 'hours')` | `value.minus({ hours: 2 })` | Returns a new immutable value. |
 | `m.startOf('month')` | `value.startOf('month')` | Unit names remain explicit. |
@@ -101,7 +101,7 @@ The adapter is a migration bridge, not the destination. Prefer the typed core on
 | `m.tz('Europe/Paris')` | `zdt.withTimeZone('Europe/Paris')` | Keeps the instant, changes the view zone. |
 | `m.utcOffset()` | `zdt.offsetMs / 60_000` | Offset is a derived property of the instant and zone. |
 | `m.clone()` | No replacement needed | Tempo values are immutable; reuse the original. |
-| `m.fromNow()` | `fromNow(instant)` | Import from `tempo-js/relative`; pass locale explicitly when needed. |
+| `m.fromNow()` | `fromNow(instant)` | Import from `@chloevpin/tempo/relative`; pass locale explicitly when needed. |
 
 ### Migration rules that prevent the expensive bugs
 

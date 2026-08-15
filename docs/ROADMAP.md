@@ -67,7 +67,7 @@ Goal: production-ready kernel with a locked contract.
 - [ ] Optional embedded tzdata fallback package for incomplete Intl hosts *(deferred to a separate optional package; not part of the default v1 contract)*
 - [x] Clock injection documented as public API
 - [x] Migration cookbook covering the 20 most common Moment calls
-- [ ] npm publish of `tempo-js@1.0.0`
+- [ ] npm publish of `@chloevpin/tempo@1.0.0`
 
 ## Phase 3 — After 1.0 (not blocking)
 
@@ -80,7 +80,7 @@ These stay out of the default bundle.
 - Nanosecond / BigInt precision module
 - Holiday / weekend plugins
 - Date-picker helpers
-- Embedded historical tzdata slices (`@tempojs/tz-data-2020-2030`, full)
+- Embedded historical tzdata slices (`@chloevpin/tempo-tz-data-2020-2030`, full)
 - Custom calendar plugins
 
 ## Non-goals (explicit)
@@ -97,7 +97,7 @@ These stay out of the default bundle.
 
 | Date | Decision | Rationale |
 |---|---|---|
-| 2026-08-14 | Library name: **Tempo**. npm name: **`tempo-js`**. | `tempo` is taken on npm. Repo stays `tempo`. |
+| 2026-08-14 | Library name: **Tempo**. npm name: **`@chloevpin/tempo`**. | The owner scope avoids npm's unscoped-name similarity restrictions. Repo stays `tempo`. |
 | 2026-08-14 | Single package with subpath exports, not a monorepo. | Faster to ship v1; still tree-shakable. Split later if needed. |
 | 2026-08-14 | Months are 1–12. | Matches Temporal / ISO / human expectation. JS Date interop is explicit. |
 | 2026-08-14 | Default overflow is `constrain`. | Matches Temporal. `reject` is opt-in. |
@@ -119,13 +119,13 @@ Min+gzip of the built entries (measured via esbuild transform + zlib):
 
 | Entry | gzip |
 |---|---:|
-| `tempo-js` (core + tz) | 8.9 kB |
-| `tempo-js/format` | 1.6 kB |
-| `tempo-js/tz` (core + tz) | 8.8 kB |
-| `tempo-js/intl` | 0.4 kB |
-| `tempo-js/relative` | 3.7 kB |
-| `tempo-js/compat/moment` | 11.0 kB |
-| `tempo-js/temporal` | 9.0 kB |
+| `@chloevpin/tempo` (core + tz) | 8.9 kB |
+| `@chloevpin/tempo/format` | 1.6 kB |
+| `@chloevpin/tempo/tz` (core + tz) | 8.8 kB |
+| `@chloevpin/tempo/intl` | 0.4 kB |
+| `@chloevpin/tempo/relative` | 3.7 kB |
+| `@chloevpin/tempo/compat/moment` | 11.0 kB |
+| `@chloevpin/tempo/temporal` | 9.0 kB |
 | core only (no tz/format/intl/relative) | 7.1 kB |
 
 size-limit gates `dist/index.js` at 10 kB and `dist/format/index.js` at 6 kB, reporting gzip in CI.

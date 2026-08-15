@@ -99,7 +99,7 @@ duration.toISO()
 An immutable half-open interval `[start, end)`. Endpoints can be any Tempo value with a `compare()` method, including `Instant`, `LocalDate`, and `ZonedDateTime`. Equal endpoints are allowed and form an empty interval.
 
 ```ts
-import { DateRange, Instant, Interval, LocalDate } from 'tempo-js';
+import { DateRange, Instant, Interval, LocalDate } from '@chloevpin/tempo';
 
 const start = Instant.parse('2026-06-01T00:00:00Z');
 const end = start.plus({ days: 7 });
@@ -130,11 +130,11 @@ Custom LocalDate parsing supports numeric `y`/`yyyy`/`uuuu`, `M`/`MM`, `d`/`dd`,
 ## Formatting
 
 ```ts
-import { format } from 'tempo-js/format';
+import { format } from '@chloevpin/tempo/format';
 
 format(date, 'yyyy-MM-dd')
 format(zdt, "yyyy-MM-dd 'at' HH:mm XXX")
-import { toLocaleString } from 'tempo-js/intl';
+import { toLocaleString } from '@chloevpin/tempo/intl';
 toLocaleString(date, 'fr-FR', { dateStyle: 'full' })
 ```
 
@@ -143,14 +143,14 @@ Tokens: `yyyy MM dd HH hh mm ss SSS a XXX zzzz EEEE MMMM`. Not Moment’s `YYYY`
 ## Relative time
 
 ```ts
-import { fromNow, relativeTime } from 'tempo-js/relative';
+import { fromNow, relativeTime } from '@chloevpin/tempo/relative';
 fromNow(instant, { locale: 'en' })
 ```
 
 ## Moment adapter
 
 ```ts
-import { moment } from 'tempo-js/compat/moment';
+import { moment } from '@chloevpin/tempo/compat/moment';
 moment('2026-06-01T00:00:00Z').add(1, 'day').format('YYYY-MM-DD')
 ```
 
@@ -167,7 +167,7 @@ Immutable. Strict parse. Common methods only. See `docs/MIGRATION.md`.
 Production `now()` / `today()` calls use the installed clock. Tests and deterministic applications can inject one explicitly:
 
 ```ts
-import { resetClock, useFixedClock } from 'tempo-js';
+import { resetClock, useFixedClock } from '@chloevpin/tempo';
 
 const restore = useFixedClock(Date.UTC(2026, 5, 1));
 // Instant.now(), LocalDate.today(), and ZonedDateTime.now() are deterministic here.
@@ -179,14 +179,14 @@ resetClock();
 
 ## Public API freeze
 
-The 1.0 candidate keeps the main `tempo-js` barrel limited to core and timezone values. Formatting, locale formatting, relative time, Moment compatibility, and Temporal interop remain explicit subpath imports. Runtime export surfaces are covered by `tests/unit/public-api.test.ts`.
+The 1.0 candidate keeps the main `@chloevpin/tempo` barrel limited to core and timezone values. Formatting, locale formatting, relative time, Moment compatibility, and Temporal interop remain explicit subpath imports. Runtime export surfaces are covered by `tests/unit/public-api.test.ts`.
 
 Units use singular names (`day`, `week`, `month`, and `year`), matching the TypeScript unions and Temporal-shaped API.
 
 ## Clock helpers
 
 ```ts
-import { useFixedClock, resetClock } from 'tempo-js';
+import { useFixedClock, resetClock } from '@chloevpin/tempo';
 const restore = useFixedClock(Date.UTC(2026, 5, 1));
 // ...
 restore();

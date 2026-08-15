@@ -9,7 +9,7 @@ Tempo 1.0.0 is ready: a small, immutable, Temporal-aligned date/time library for
 Tempo gives each value a clear meaning — `Instant`, `LocalDate`, `LocalTime`, `LocalDateTime`, `ZonedDateTime`, and `Duration` — with strict ISO parsing, predictable overflow and DST policies, Intl-first time zones, and tree-shakable subpath modules. It is a clean-break replacement for Moment.js, with an optional compatibility adapter for migration.
 
 ```sh
-npm install tempo-js
+npm install @chloevpin/tempo
 ```
 
 Start with the [API reference](API.md) and [Moment migration cookbook](MIGRATION.md).
@@ -23,10 +23,10 @@ Start with the [API reference](API.md) and [Moment migration cookbook](MIGRATION
 - Intl-first IANA time zones without bundling the IANA database in the default package.
 - Integer epoch-millisecond `Instant` values.
 - Generic immutable half-open `Interval<T>` values and the `DateRange.of(...)` LocalDate factory.
-- Java/Temporal-style token formatting from `tempo-js/format`.
-- Explicit locale and relative-time modules from `tempo-js/intl` and `tempo-js/relative`.
-- Feature-detected Temporal interop from `tempo-js/temporal`.
-- An immutable common-subset Moment adapter from `tempo-js/compat/moment`.
+- Java/Temporal-style token formatting from `@chloevpin/tempo/format`.
+- Explicit locale and relative-time modules from `@chloevpin/tempo/intl` and `@chloevpin/tempo/relative`.
+- Feature-detected Temporal interop from `@chloevpin/tempo/temporal`.
+- An immutable common-subset Moment adapter from `@chloevpin/tempo/compat/moment`.
 - ESM, CommonJS, and TypeScript declarations with zero runtime dependencies.
 
 ## Migration highlights
@@ -34,7 +34,7 @@ Start with the [API reference](API.md) and [Moment migration cookbook](MIGRATION
 ### Choose the type before choosing the method
 
 ```ts
-import { Instant, LocalDate, ZonedDateTime } from 'tempo-js';
+import { Instant, LocalDate, ZonedDateTime } from '@chloevpin/tempo';
 
 const birthday = LocalDate.parse('1990-06-01');
 const event = Instant.parse('2026-06-01T16:00:00Z');
@@ -81,7 +81,7 @@ Pass `{ overflow: 'reject' }` when clamping is not acceptable.
 ### Make DST policy explicit
 
 ```ts
-import { LocalDateTime } from 'tempo-js';
+import { LocalDateTime } from '@chloevpin/tempo';
 
 const local = LocalDateTime.parse('2026-03-08T02:30:00');
 const meeting = local.toZonedDateTime('America/New_York', {
@@ -94,16 +94,16 @@ The default is Temporal-compatible: gaps choose the later instant and overlaps c
 ### Move formatting and advanced modules to subpaths
 
 ```ts
-import { format } from 'tempo-js/format';
-import { toLocaleString } from 'tempo-js/intl';
-import { fromNow } from 'tempo-js/relative';
-import { moment } from 'tempo-js/compat/moment';
-import { toTemporalInstant } from 'tempo-js/temporal';
+import { format } from '@chloevpin/tempo/format';
+import { toLocaleString } from '@chloevpin/tempo/intl';
+import { fromNow } from '@chloevpin/tempo/relative';
+import { moment } from '@chloevpin/tempo/compat/moment';
+import { toTemporalInstant } from '@chloevpin/tempo/temporal';
 
 format(date, 'yyyy-MM-dd');
 ```
 
-The main `tempo-js` barrel intentionally contains core and timezone APIs only. This keeps the default entry small and makes advanced dependencies explicit.
+The main `@chloevpin/tempo` barrel intentionally contains core and timezone APIs only. This keeps the default entry small and makes advanced dependencies explicit.
 
 ### Replace Moment calls deliberately
 
@@ -119,7 +119,7 @@ The main `tempo-js` barrel intentionally contains core and timezone APIs only. T
 | `m.tz('Europe/Paris')`  | `zdt.withTimeZone('Europe/Paris')`                |
 | `m.clone()`             | No replacement; values are immutable              |
 
-Use `tempo-js/compat/moment` as a stepping stone, not as the core API. The adapter is intentionally a strict, immutable subset and does not restore Moment’s global locale, plugin, or permissive-invalid-object behavior.
+Use `@chloevpin/tempo/compat/moment` as a stepping stone, not as the core API. The adapter is intentionally a strict, immutable subset and does not restore Moment’s global locale, plugin, or permissive-invalid-object behavior.
 
 ## Release evidence
 

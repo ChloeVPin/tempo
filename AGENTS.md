@@ -16,7 +16,7 @@ Do **not** start from the original Moment research dump as an implementation spe
 
 ## What this project is
 
-**Tempo** is a TypeScript-first, immutable, Temporal-aligned date/time kernel. Product name: Tempo. npm name: `tempo-js`. GitHub: https://github.com/ChloeVPin/tempo (public).
+**Tempo** is a TypeScript-first, immutable, Temporal-aligned date/time kernel. Product name: Tempo. npm name: `@chloevpin/tempo`. GitHub: https://github.com/ChloeVPin/tempo (public).
 
 It replaces Moment’s *role*, not Moment’s API.
 
@@ -32,7 +32,7 @@ These are closed. Do not re-open them unless the user explicitly asks.
 6. DST default is Temporal `compatible` (gap → later instant, overlap → earlier instant).
 7. Instants are integer epoch milliseconds. No BigInt nanos in v1.
 8. Intl is the timezone engine. Do not bundle IANA tzdata in the default package.
-9. Moment compatibility lives in `tempo-js/compat/moment` only. Core stays Temporal-shaped.
+9. Moment compatibility lives in `@chloevpin/tempo/compat/moment` only. Core stays Temporal-shaped.
 10. Format tokens in core are Java/Temporal (`yyyy-MM-dd`), not Moment (`YYYY-MM-DD`).
 11. Zero runtime dependencies in published core.
 12. `src/core/civil.ts` is the only leap-year / epoch-day implementation. Use `truncDiv` (toward-zero), never `Math.floor`, for Hinnant era math.
@@ -68,4 +68,4 @@ If you change civil math, DST, ISO parse, or overflow, add a test in the **same 
 
 ## Current phase
 
-Phase 1 hardening and the Phase 2 1.0 API-freeze candidate are on `main` (`tempo-js@1.0.0` metadata prepared, not published). The API contract is audited; npm publication is an explicit release step. Start at the top of `docs/WORK-PACKAGES.md` for any remaining work.
+Phase 1 hardening and the Phase 2 1.0 API-freeze candidate are on `main` (`@chloevpin/tempo@1.0.0` metadata prepared, not published). The API contract is audited; npm publication is an explicit release step. Start at the top of `docs/WORK-PACKAGES.md` for any remaining work.
