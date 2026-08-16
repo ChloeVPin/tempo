@@ -7,8 +7,8 @@
 
   <p>
     <a href="https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml"><img src="https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="MIT license" /></a>
     <a href="https://www.npmjs.com/package/@chloevpin/tempo"><img src="https://img.shields.io/npm/v/%40chloevpin%2Ftempo?logo=npm" alt="npm" /></a>
-    <img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="MIT" />
   </p>
 </div>
 
