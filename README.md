@@ -1,21 +1,19 @@
-<div align="center">
+<p align="center">
+  <img src="assets/hero.png" alt="Tempo — immutable date and time types" width="480" />
+</p>
 
-<img src="assets/logo.png" alt="Tempo logo" width="144" />
+<p align="center">
+  <a href="https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml"><img src="https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://www.npmjs.com/package/@chloevpin/tempo"><img src="https://img.shields.io/npm/v/%40chloevpin%2Ftempo?logo=npm" alt="npm" /></a>
+  <img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="MIT" />
+</p>
 
-# Tempo
+Tempo is an immutable, Temporal-aligned date and time library for JavaScript and TypeScript. Types are explicit. Parsing is strict. The core stays small; formatting, time zones, and Moment compatibility are separate entry points.
 
-[![CI](https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml/badge.svg)](https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/ChloeVPin/tempo)](https://github.com/ChloeVPin/tempo/blob/main/LICENSE)
-[![npm version](https://img.shields.io/npm/v/%40chloevpin%2Ftempo?logo=npm)](https://www.npmjs.com/package/@chloevpin/tempo)
-
-</div>
-
-**A modern, immutable, Temporal-aligned date/time library for JavaScript and TypeScript.**
-
-Tempo is a clean-break replacement for Moment.js. It does not clone Moment’s mutable, monolithic API. It gives you explicit types, strict parsing, tree-shakable modules, and optional Moment compatibility if you are migrating.
+It is a clean-break alternative to Moment.js, not a clone of Moment’s mutable API.
 
 ```ts
-import { Instant, Interval, LocalDate, ZonedDateTime } from '@chloevpin/tempo';
+import { Instant, Interval, LocalDate } from '@chloevpin/tempo';
 
 const date = LocalDate.parse('2026-06-01').plus({ days: 1 });
 date.toISO(); // '2026-06-02'
@@ -25,14 +23,18 @@ const ny = instant.toZonedDateTime('America/New_York');
 ny.toISO(); // '2026-06-01T12:00:00-04:00[America/New_York]'
 
 const week = Interval.of(instant, instant.plus({ days: 7 }));
-week.contains(instant); // true; intervals are immutable and half-open
+week.contains(instant); // true — intervals are immutable and half-open
 ```
 
-## Why Tempo exists
+## Install
 
-Moment is legacy. It is still everywhere because of inertia, not because its design is right.
+```sh
+npm install @chloevpin/tempo
+```
 
-Tempo’s contract:
+The product is **Tempo**. The package is `@chloevpin/tempo` because npm reserves unscoped names that are too close to existing packages.
+
+## Why Tempo
 
 | Moment | Tempo |
 |---|---|
@@ -44,22 +46,13 @@ Tempo’s contract:
 | Huge default bundle | Small core, subpath modules |
 | `moment-timezone` data dump | Intl-first IANA zones |
 
-## Install
-
-```sh
-npm install @chloevpin/tempo
-```
-
-The product is called **Tempo**. The package uses the `@chloevpin` npm scope to avoid npm's unscoped-name similarity restrictions.
-
 ## Quick start
 
 ```ts
 import {
+  Instant,
   LocalDate,
   LocalDateTime,
-  Instant,
-  Duration,
   ZonedDateTime,
 } from '@chloevpin/tempo';
 
@@ -83,7 +76,7 @@ LocalDate.parse('01/02/2026'); // throws TempoError INVALID_PARSE
 LocalDate.tryParse('2026-06-01'); // { ok: true, value }
 ```
 
-## Packages / entry points
+## Entry points
 
 ```ts
 import { LocalDate } from '@chloevpin/tempo';
@@ -93,24 +86,19 @@ import { moment } from '@chloevpin/tempo/compat/moment';
 import { toTemporalInstant } from '@chloevpin/tempo/temporal';
 ```
 
+Use the root package for the core types. Import formatting, relative time, Moment compatibility, and Temporal interop from the subpaths.
+
 ## Documentation
 
-- [Docs index](https://github.com/ChloeVPin/tempo/tree/main/docs)
-- **Taking over this repo:** [AGENTS.md](https://github.com/ChloeVPin/tempo/blob/main/AGENTS.md) → [handoff](https://github.com/ChloeVPin/tempo/blob/main/docs/HANDOFF.md) → [work packages](https://github.com/ChloeVPin/tempo/blob/main/docs/WORK-PACKAGES.md)
-- [Design](https://github.com/ChloeVPin/tempo/blob/main/docs/DESIGN.md)
-- [Architecture](https://github.com/ChloeVPin/tempo/blob/main/docs/ARCHITECTURE.md)
-- [Invariants](https://github.com/ChloeVPin/tempo/blob/main/docs/INVARIANTS.md)
-- [Implementation status](https://github.com/ChloeVPin/tempo/blob/main/docs/STATUS.md)
-- [Roadmap](https://github.com/ChloeVPin/tempo/blob/main/docs/ROADMAP.md)
-- [Moment migration](docs/MIGRATION.md)
-- [Testing strategy](docs/TESTING.md)
-- [API reference](docs/API.md)
-- [1.0.0 release announcement](docs/RELEASE-1.0.0.md)
-- [Research notes](https://github.com/ChloeVPin/tempo/blob/main/docs/RESEARCH.md) (background only)
+| | |
+|---|---|
+| [API reference](docs/API.md) | Public types and methods |
+| [Moment migration](docs/MIGRATION.md) | Replacing Moment call sites |
+| [Design](docs/DESIGN.md) | Why the API looks like this |
+| [Architecture](docs/ARCHITECTURE.md) | Module layout |
+| [Changelog](CHANGELOG.md) | What changed |
 
-## Status
-
-`1.0.0` is published on npm. Phase 1 hardening and the 1.0 API-freeze contract are on `main`; future work is limited to documented post-1.0 improvements. Install [@chloevpin/tempo](https://www.npmjs.com/package/@chloevpin/tempo) or see [WORK-PACKAGES.md](docs/WORK-PACKAGES.md) for release boundaries.
+`1.0.0` is published. The public API is frozen.
 
 ## License
 
