@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **docs:** README first screen now states what Tempo is, shows one API example, and drops internal handoff/work-package links. Hero and mark use ink + brass instead of neon green.
 - **fix:** `Duration` sub-second normalization. Fractional hour/minute/day parsing (and direct `Duration.of` calls) used to store the fractional remainder as a raw millisecond count, which `toISO()`/`toJSON()` then serialized as a `.SSS` fraction — corrupting the value (e.g. `Duration.parse('PT0.5H').toISO()` returned `'PT0.18S'` instead of `'PT30M'`). The `milliseconds` field is now carried into seconds/minutes/hours at construction, so every duration serializes and round-trips exactly.
 - **fix:** civil years `0–99` no longer drift to `1900–1999`. `format(zdt, 'EEEE')` computed the weekday via `Date.UTC(year, …)`, and `toLocaleString` routed civil dates through `Date.UTC` too, so `LocalDate.of(50, 1, 1)` formatted as year `1950`. Weekday formatting now uses the civil calendar (`daysFromCivil` + `isoDayOfWeek`), and locale formatting uses `setUTCFullYear` (via `utcMillis`).
 - **fix:** the day-period token (`a`/`aa`/`aaa`) was hard-coded `AM`/`PM` and ignored the locale. It now formats through a cached `Intl.DateTimeFormat` day period, so `format(..., 'a', { locale: 'zh-CN' })` yields `上午`/`下午` rather than a constant.

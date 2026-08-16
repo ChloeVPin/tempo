@@ -1,7 +1,7 @@
 {
   "name": "@chloevpin/tempo",
   "version": "1.0.0",
-  "description": "Tempo — a modern, immutable, Temporal-aligned date/time library. A clean-break replacement for Moment.js.",
+  "description": "Immutable, Temporal-aligned date and time types for JavaScript and TypeScript.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
