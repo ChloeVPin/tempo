@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Tempo" width="144" />
+  <img src="assets/hero.png" alt="Tempo — immutable date and time types" width="480" />
 </p>
 
 <p align="center">

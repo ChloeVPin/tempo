@@ -26,7 +26,7 @@ def banner(path: Path, width: int, height: int, mark: int, word_size: int, tag_s
     draw = ImageDraw.Draw(img)
     logo = Image.open(LOGO).convert("RGBA")
     logo.thumbnail((mark, mark), Image.Resampling.LANCZOS)
-    img.paste(logo, ((width - logo.width) // 2, int(height * 0.16)), logo)
+    img.paste(logo, ((width - logo.width) // 2, int(height * 0.14)), logo)
 
     word = font(word_size)
     tag = font(tag_size)
@@ -34,8 +34,8 @@ def banner(path: Path, width: int, height: int, mark: int, word_size: int, tag_s
     tagline = "Immutable date and time types."
     wb = draw.textbbox((0, 0), wordmark, font=word)
     tb = draw.textbbox((0, 0), tagline, font=tag)
-    word_y = int(height * 0.16) + logo.height + 28
-    tag_y = word_y + (wb[3] - wb[1]) + 16
+    word_y = int(height * 0.14) + logo.height + 22
+    tag_y = word_y + (wb[3] - wb[1]) + 14
     draw.text(((width - (wb[2] - wb[0])) / 2, word_y), wordmark, font=word, fill=WORD)
     draw.text(((width - (tb[2] - tb[0])) / 2, tag_y), tagline, font=tag, fill=MORTAR)
     img.save(path, "PNG", optimize=True)
