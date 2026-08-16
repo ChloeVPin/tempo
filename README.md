@@ -1,12 +1,16 @@
-<p align="center">
-  <img src="assets/hero.png" alt="Tempo — immutable date and time types" width="480" />
-</p>
+<div align="center">
+  <img src="assets/logo.png" alt="Tempo logo" width="144" />
 
-<p align="center">
-  <a href="https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml"><img src="https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://www.npmjs.com/package/@chloevpin/tempo"><img src="https://img.shields.io/npm/v/%40chloevpin%2Ftempo?logo=npm" alt="npm" /></a>
-  <img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="MIT" />
-</p>
+  <h1>Tempo</h1>
+
+  <p>Immutable date and time types.</p>
+
+  <p>
+    <a href="https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml"><img src="https://github.com/ChloeVPin/tempo/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+    <a href="https://www.npmjs.com/package/@chloevpin/tempo"><img src="https://img.shields.io/npm/v/%40chloevpin%2Ftempo?logo=npm" alt="npm" /></a>
+    <img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="MIT" />
+  </p>
+</div>
 
 Tempo is an immutable, Temporal-aligned date and time library for JavaScript and TypeScript. Types are explicit. Parsing is strict. The core stays small; formatting, time zones, and Moment compatibility are separate entry points.
 
